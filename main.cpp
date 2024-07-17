@@ -735,7 +735,6 @@ public:
     static double calculate_integral_by_error(Functor integralFormula, double tolerance, double delta_x, double &newDelta_x)
     {
         double numberOfPartitions = 1;
-        // newDelta_x = delta_x/numberOfPartitions;
         double result, pastResult = 0;
         double error = numeric_limits<double>::max();
         while (error >= tolerance)
@@ -812,6 +811,19 @@ public:
         return calculate_integral_by_numberOfPartitions(NewtonCotes_simpsonThreeEighths_formula, numberOfPartitions);
     }
 
+    static double NewtonCotes_simpsonFormula_threeEighths(double (*function)(double), double Xi, double delta_x, double tolerance)
+    {
+        double newDelta_x = 0;
+        double h = newDelta_x / 3;
+        auto NewtonCotes_simpsonThreeEighths_formula = [function, &h, Xi, &newDelta_x](int partition)
+        {
+            h = newDelta_x / 3;
+            double xi = (Xi + partition * newDelta_x);
+            return (3 * h / 8) * (function(xi) + 3 * function(xi + h) + 3 * function(xi + 2 * h) + function(xi + 3 * h));
+        };
+        return calculate_integral_by_error(NewtonCotes_simpsonThreeEighths_formula, tolerance, delta_x, newDelta_x);
+    }
+
     static double NewtonCotes_firstDegree_open(double (*function)(double), double Xi, double delta_x, int numberOfPartitions)
     {
         double newDelta_x = delta_x / numberOfPartitions;
@@ -822,6 +834,19 @@ public:
             return (3 * h / 2) * (function(xi + h) + function(xi + 2 * h));
         };
         return calculate_integral_by_numberOfPartitions(NewtonCotes_firstDegree_formula, numberOfPartitions);
+    }
+
+    static double NewtonCotes_firstDegree_open(double (*function)(double), double Xi, double delta_x, double tolerance)
+    {
+        double newDelta_x = 0;
+        double h = newDelta_x / 3;
+        auto NewtonCotes_firstDegree_formula = [function, &h, Xi, &newDelta_x](int partition)
+        {
+            h = newDelta_x / 3;
+            double xi = (Xi + partition * newDelta_x);
+            return (3 * h / 2) * (function(xi + h) + function(xi + 2 * h));
+        };
+        return calculate_integral_by_error(NewtonCotes_firstDegree_formula, tolerance, delta_x, newDelta_x);
     }
 
     static double NewtonCotes_milne_rule(double (*function)(double), double Xi, double delta_x, int numberOfPartitions)
@@ -836,6 +861,19 @@ public:
         return calculate_integral_by_numberOfPartitions(NewtonCotes_milne_rule_formula, numberOfPartitions);
     }
 
+    static double NewtonCotes_milne_rule(double (*function)(double), double Xi, double delta_x, double tolerance)
+    {
+        double newDelta_x = 0;
+        double h = newDelta_x / 4;
+        auto NewtonCotes_milne_rule_formula = [function, &h, Xi, &newDelta_x](int partition)
+        {
+            h = newDelta_x / 4;
+            double xi = (Xi + partition * newDelta_x);
+            return (4 * h / 3) * (2 * function(xi + h) - function(xi + 2 * h) + 2 * function(xi + 3 * h));
+        };
+        return calculate_integral_by_error(NewtonCotes_milne_rule_formula, tolerance, delta_x, newDelta_x);
+    }
+
     static double NewtonCotes_third_degree_open(double (*function)(double), double Xi, double delta_x, int numberOfPartitions)
     {
         double newDelta_x = delta_x / numberOfPartitions;
@@ -847,6 +885,19 @@ public:
         };
         return calculate_integral_by_numberOfPartitions(NewtonCotes_third_degree_open_formula, numberOfPartitions);
     }
+
+    static double NewtonCotes_third_degree_open(double (*function)(double), double Xi, double delta_x, double tolerance)
+    {
+        double newDelta_x = 0;
+        double h = newDelta_x / 5;
+        auto NewtonCotes_third_degree_open_formula = [function, &h, Xi, &newDelta_x](int partition)
+        {
+            h = newDelta_x / 5;
+            double xi = (Xi + partition * newDelta_x);
+            return (5 * h / 24) * (11 * function(xi + h) + function(xi + 2 * h) + function(xi + 3 * h) + 11 * function(xi + 4 * h));
+        };
+        return calculate_integral_by_error(NewtonCotes_third_degree_open_formula, tolerance, delta_x, newDelta_x);
+    }
 };
 
 double teste(double x)
@@ -856,13 +907,18 @@ double teste(double x)
 
 double teste2(double x)
 {
+    return pow(x, 2) + x + 4;
+}
+
+double teste3(double x)
+{
     return pow(x, 3) + pow(x, 2) + x + 4;
 }
 
 int main()
 {
     Integral itgral;
-    cout << "RESULT ++>  " << Integral::NewtonCotes_firstDegree(teste, 0, 4, 0.001) << '\n';
+    cout << "RESULT ++>  " << Integral::NewtonCotes_simpsonFormula_threeEighths(teste3, 0, 4, 0.0000000000000000001) << '\n';
 
     return 0;
 }
