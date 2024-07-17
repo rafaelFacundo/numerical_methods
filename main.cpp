@@ -731,6 +731,24 @@ public:
         return result;
     }
 
+    template <typename Functor>
+    static double calculate_integral_by_error(Functor integralFormula, double tolerance, double delta_x, double &newDelta_x)
+    {
+        double numberOfPartitions = 1;
+        // newDelta_x = delta_x/numberOfPartitions;
+        double result, pastResult = 0;
+        double error = numeric_limits<double>::max();
+        while (error >= tolerance)
+        {
+            newDelta_x = delta_x / numberOfPartitions;
+            result = calculate_integral_by_numberOfPartitions(integralFormula, numberOfPartitions);
+            error = fabs((result - pastResult) / result);
+            pastResult = result;
+            numberOfPartitions *= 2;
+        }
+        return result;
+    }
+
     static double NewtonCotes_firstDegree(double (*function)(double), double Xi, double delta_x, int numberOfPartitions)
     {
         double newDelta_x = delta_x / numberOfPartitions;
@@ -745,27 +763,15 @@ public:
 
     static double NewtonCotes_firstDegree(double (*function)(double), double Xi, double delta_x, double tolerance)
     {
-        int numberOfPartitions = 1;
-        double newDelta_x = delta_x / numberOfPartitions;
+        double newDelta_x = 0;
         double h = newDelta_x;
-        double result = 0;
-        double pastResult = 0;
-        double error = numeric_limits<double>::max();
-        auto NewtonCotes_firstDegree_formula = [function, &h, Xi, &newDelta_x, delta_x](int partition)
+        auto NewtonCotes_firstDegree_formula = [function, &h, Xi, &newDelta_x](int partition)
         {
             h = newDelta_x;
             double xi = (Xi + partition * newDelta_x);
             return (h / 2) * (function(xi) + function(xi + h));
         };
-        while (error >= tolerance)
-        {
-            newDelta_x = delta_x / numberOfPartitions;
-            result = calculate_integral_by_numberOfPartitions(NewtonCotes_firstDegree_formula, numberOfPartitions);
-            error = fabs((result - pastResult) / result);
-            pastResult = result;
-            numberOfPartitions *= 2;
-        }
-        return result;
+        return calculate_integral_by_error(NewtonCotes_firstDegree_formula, tolerance, delta_x, newDelta_x);
     }
 
     static double NewtonCotes_simpsonFormula_oneThird(double (*function)(double), double Xi, double delta_x, int numberOfPartitions)
@@ -783,15 +789,15 @@ public:
 
     static double NewtonCotes_simpsonFormula_oneThird(double (*function)(double), double Xi, double delta_x, double tolerance)
     {
-        double newDelta_x = delta_x / numberOfPartitions;
+        double newDelta_x = 0;
         double h = newDelta_x / 2;
-        auto NewtonCotes_simpson_formula = [function, h, newDelta_x, Xi](int partition)
+        auto NewtonCotes_simpson_formula = [function, &h, &newDelta_x, Xi](int partition)
         {
+            h = newDelta_x / 2;
             double xi = (Xi + partition * newDelta_x);
-            cout << "par " << partition << '\n';
             return (h / 3) * (function(xi) + 4 * function(xi + h) + function(xi + 2 * h));
         };
-        return calculate_integral_by_numberOfPartitions(NewtonCotes_simpson_formula, numberOfPartitions);
+        return calculate_integral_by_error(NewtonCotes_simpson_formula, tolerance, delta_x, newDelta_x);
     };
 
     static double NewtonCotes_simpsonFormula_threeEighths(double (*function)(double), double Xi, double delta_x, int numberOfPartitions)
