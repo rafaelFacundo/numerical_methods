@@ -900,25 +900,29 @@ public:
     }
 };
 
-double teste(double x)
-{
-    return 2 * x + 4;
-}
+class EulerMethods {
+    public:
+        static vector<double> explicitEulerMethod(double So, double deltaT, double (*function)(double), int numbeOfStates){
+            vector<double> states = {So};
+            double Si = 0;
+            for (int i = 1; i <= numbeOfStates; ++i) {
+                Si = states[i-1] + deltaT * function(states[i-1]);
+                states.push_back(Si);
+            }
+            return states;
+        }
+};
 
-double teste2(double x)
-{
-    return pow(x, 2) + x + 4;
-}
+double yt(double x) {
 
-double teste3(double x)
-{
-    return pow(x, 3) + pow(x, 2) + x + 4;
+    return 2.0/3.0 * x;
 }
 
 int main()
 {
-    Integral itgral;
-    cout << "RESULT ++>  " << Integral::NewtonCotes_simpsonFormula_threeEighths(teste3, 0, 4, 0.0000000000000000001) << '\n';
+    EulerMethods teste;
+    EulerMethods::explicitEulerMethod(2, 0.5, yt, 2);
+    
 
     return 0;
 }
