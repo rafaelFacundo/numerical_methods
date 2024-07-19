@@ -976,6 +976,35 @@ class RangeKuttaMethods {
         }
 };
 
+class AdamsBashforthMethods {
+    public:
+        static vector<double> adamsBashforthSecondOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates) {
+            vector<double> states = {So};
+            double Si, Si_bar = 0;
+            double S_one = RangeKuttaMethods::rangeKuttaSecondOrderMethod(So, deltaT, function, 1).back();
+            states.push_back(S_one);
+            
+            for (int i = 2; i <= numberOfStates; ++i) {
+                Si_bar = states[i-1] + (deltaT/2) * ( 3*function(states[i-1]) - function(states[i-2]));
+                Si = states[i-1] + deltaT * (0.5*function(states[i-1]) + 0.5*function(Si_bar));
+                states.push_back(Si);
+            }
+            return states;
+        }
+
+        static vector<double> adamsBashForthThirdOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+        {
+            vector<double> states = RangeKuttaMethods::rangeKuttaThirdOrderMethod(So, deltaT, function, 2);
+            double Si, Si_bar = 0;
+            for (int i = 3; i <= numberOfStates; ++i) {
+                Si_bar = states[i-1] + (deltaT/12) * (5*function(states[i-3]) - 16*function(states[i-2]) + 23*function(states[i-1]));
+                Si = states[i-1] + (deltaT/12) * (8*function(states[i-1]) - function(states[i-2]) + 5*function(Si_bar));
+                states.push_back(Si);
+            }
+            return states;
+        }
+};
+
 double yt(double x) {
 
     return 2.0/3.0 * x;
@@ -987,8 +1016,8 @@ double f(double x) {
 
 int main()
 {
-    RangeKuttaMethods teste;
-    vector<double> r = RangeKuttaMethods::rangeKuttaThirdOrderMethod(2, 0.5, yt, 2);
+    AdamsBashforthMethods teste;
+    vector<double> r = AdamsBashforthMethods::adamsBashForthThirdOrderMethod(2, 0.5, yt, 3);
 
     for (int i =0; i < r.size(); ++i) {
         cout << "S" << i << " " << r[i] << '\n';
