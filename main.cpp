@@ -947,6 +947,35 @@ class EulerMethods {
         }
 };
 
+class RangeKuttaMethods {
+    public:
+        static vector<double> rangeKuttaSecondOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+        {
+            vector<double> states = {So};
+            double Si_bar = 0;
+            double Si = 0;
+            for(int i = 1; i<= numberOfStates; ++i) {
+                Si_bar = EulerMethods::explicitEulerMethod(states[i-1], deltaT, function, 1).back();
+                Si = states[i-1] + deltaT*(0.5*function(states[i-1]) + 0.5*function(Si_bar));
+                states.push_back(Si);
+            }
+            return states;
+        }
+
+        static vector<double> rangeKuttaThirdOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+        {
+            vector<double> states = {So};
+            double Si_bar, Si_bar_half, Si = 0;
+            for(int i = 1; i <= numberOfStates; ++i) {
+                Si_bar_half = EulerMethods::explicitEulerMethod(states[i-1], deltaT/2, function, 1).back();
+                Si_bar = EulerMethods::explicitEulerMethod(states[i-1], deltaT, function, 1).back();
+                Si = states[i-1] + deltaT * ( (1.0/6.0)*function(states[i-1]) + (2.0/3.0)*function(Si_bar_half) +  (1.0/6.0)*function(Si_bar));
+                states.push_back(Si);
+            }
+            return states;
+        }
+};
+
 double yt(double x) {
 
     return 2.0/3.0 * x;
@@ -958,8 +987,8 @@ double f(double x) {
 
 int main()
 {
-    EulerMethods teste;
-    vector<double> r = EulerMethods::implicitEulerMethod(2, 0.5, yt, 2);
+    RangeKuttaMethods teste;
+    vector<double> r = RangeKuttaMethods::rangeKuttaThirdOrderMethod(2, 0.5, yt, 2);
 
     for (int i =0; i < r.size(); ++i) {
         cout << "S" << i << " " << r[i] << '\n';
