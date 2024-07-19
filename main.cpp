@@ -686,6 +686,12 @@ public:
         return ((function(Xi + delta_x) - function(Xi)) / delta_x);
     }
 
+    template<typename Functor>
+    static double Forward_first_derivate_e1(Functor function, double Xi, double delta_x)
+    {
+        return ((function(Xi + delta_x) - function(Xi)) / delta_x);
+    }
+
     static double Forward_second_derivate_e1(double (*function)(double), double Xi, double delta_x)
     {
         return (1 / pow(delta_x, 2)) * (function(Xi + 2 * delta_x) - 2 * function(Xi + delta_x) - function(Xi));
@@ -900,6 +906,18 @@ public:
     }
 };
 
+template<typename Functor>
+double newtonRaphsonMethod(double Xinitial, double tolerance, Functor function)
+{
+    double Xn = Xinitial;
+    double Xnp1 = Xn - function(Xn)/Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+    while(abs(function(Xnp1)) > tolerance) {
+        Xn = Xnp1;
+        Xnp1 = Xn - function(Xn)/Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+    }
+    return Xnp1;
+}
+
 class EulerMethods {
     public:
         static vector<double> explicitEulerMethod(double So, double deltaT, double (*function)(double), int numbeOfStates){
@@ -911,6 +929,22 @@ class EulerMethods {
             }
             return states;
         }
+
+        static vector<double> implicitEulerMethod(double So, double deltaT, double (*function)(double), int numberOfStates) 
+        {
+            vector<double> states = {So};
+            double Si = 0;
+            int iteration = 1;
+            auto functionToFindRoot = [&Si, function, &states, deltaT, &iteration](double x) {
+                return states[iteration-1] + deltaT * function(x) - x;
+            };
+            while(iteration <= numberOfStates) {
+                Si = newtonRaphsonMethod(1.0, 0.0001, functionToFindRoot);
+                states.push_back(Si);
+                iteration += 1;
+            }
+            return states;
+        }
 };
 
 double yt(double x) {
@@ -918,11 +952,18 @@ double yt(double x) {
     return 2.0/3.0 * x;
 }
 
+double f(double x) {
+    return 2*pow(x,2) - 4*x + 2;
+}
+
 int main()
 {
     EulerMethods teste;
-    EulerMethods::explicitEulerMethod(2, 0.5, yt, 2);
-    
+    vector<double> r = EulerMethods::implicitEulerMethod(2, 0.5, yt, 2);
+
+    for (int i =0; i < r.size(); ++i) {
+        cout << "S" << i << " " << r[i] << '\n';
+    }
 
     return 0;
 }
