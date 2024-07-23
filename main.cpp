@@ -3,6 +3,7 @@
 #include <vector>
 #include <math.h>
 #include <limits>
+#include <utility>
 using namespace std;
 
 class Matrice
@@ -273,6 +274,30 @@ public:
         }
         return vector;
     }
+
+    pair<Matrice, Matrice> LU_decomposition()
+    {
+        Matrice U = *(this);
+        Matrice L = Matrice(this->numberOfRows, this->numberOfColumns, true);
+        double pivot = 0;
+        double numberToZero = 0;
+        double factor = 0;
+        for(int i = 0; i < U.numberOfColumns-1; ++i) {
+            pivot = U.matrice[i][i];
+            for (int j = i+1; j < U.numberOfRows; ++j) {
+                //numberToZero = U.matrice[j][i];
+                factor = U.matrice[j][i]/pivot;
+                for(int k = i; k < U.numberOfColumns; ++k) {
+                    U.matrice[j][k] -= factor * U.matrice[i][k];
+                }
+                L.matrice[j][i] = factor;
+            }
+        }
+
+        return make_pair(L, U);
+    }
+
+
 };
 
 class EigenValue_Result
@@ -375,6 +400,11 @@ EigenValue_Result inversePowerMethod(Matrice A, Matrice vectorVo, double toleran
     EigenValue_Result result = powerMethod(A_inverse, vectorVo, tolerance);
     return EigenValue_Result((1 / result.eigenValue), result.eigenVector);
 }
+
+/* EigenValue_Result inversePowerMethodWithLU(Matrice A, Matrice vectorVo, double tolerance) 
+{
+
+} */
 
 EigenValue_Result displacementPowerMethod(Matrice A, Matrice vectorVo, double tolerance, double displacement)
 {
@@ -1005,8 +1035,8 @@ class AdamsBashforthMethods {
         }
 };
 
-double yt(double x) {
 
+double yt(double x) {
     return 2.0/3.0 * x;
 }
 
@@ -1016,12 +1046,31 @@ double f(double x) {
 
 int main()
 {
-    AdamsBashforthMethods teste;
+    /* AdamsBashforthMethods teste;
     vector<double> r = AdamsBashforthMethods::adamsBashForthThirdOrderMethod(2, 0.5, yt, 3);
 
     for (int i =0; i < r.size(); ++i) {
         cout << "S" << i << " " << r[i] << '\n';
-    }
+    } */
+
+   vector<vector<double>> input = {
+        {2, 3, 1},
+        {4, 7, 7},
+        {-2, 4, 5}
+    };
+
+    Matrice A;
+    A.setMatriceVector(input);
+
+    pair<Matrice, Matrice> LU = A.LU_decomposition();
+
+    cout << "L ======\n";
+    LU.first.printMatrice();
+    cout << "===========\n";
+    cout << "U ==========\n";
+    LU.second.printMatrice();
+    cout << "=========\n";
+
 
     return 0;
 }
