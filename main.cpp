@@ -282,12 +282,15 @@ public:
         double pivot = 0;
         double numberToZero = 0;
         double factor = 0;
-        for(int i = 0; i < U.numberOfColumns-1; ++i) {
+        for (int i = 0; i < U.numberOfColumns - 1; ++i)
+        {
             pivot = U.matrice[i][i];
-            for (int j = i+1; j < U.numberOfRows; ++j) {
-                //numberToZero = U.matrice[j][i];
-                factor = U.matrice[j][i]/pivot;
-                for(int k = i; k < U.numberOfColumns; ++k) {
+            for (int j = i + 1; j < U.numberOfRows; ++j)
+            {
+                // numberToZero = U.matrice[j][i];
+                factor = U.matrice[j][i] / pivot;
+                for (int k = i; k < U.numberOfColumns; ++k)
+                {
                     U.matrice[j][k] -= factor * U.matrice[i][k];
                 }
                 L.matrice[j][i] = factor;
@@ -296,8 +299,6 @@ public:
 
         return make_pair(L, U);
     }
-
-
 };
 
 class EigenValue_Result
@@ -401,10 +402,63 @@ EigenValue_Result inversePowerMethod(Matrice A, Matrice vectorVo, double toleran
     return EigenValue_Result((1 / result.eigenValue), result.eigenVector);
 }
 
-/* EigenValue_Result inversePowerMethodWithLU(Matrice A, Matrice vectorVo, double tolerance) 
+Matrice solveLU(pair<Matrice, Matrice> LU, Matrice b)
 {
+    Matrice L = LU.first;
+    Matrice U = LU.second;
+    int n = b.numberOfRows;
+    Matrice y(n, 1);
+    Matrice x(n, 1);
 
-} */
+    // Forward substitution para encontrar y (Ly = b)
+    for (int i = 0; i < n; ++i)
+    {
+        double sum = 0;
+        for (int j = 0; j < i; ++j)
+        {
+            sum += L.getNumber(i, j) * y.getNumber(j, 0);
+        }
+        y.setValue(b.getNumber(i, 0) - sum, i, 0);
+    }
+
+    // Backward substitution para encontrar x (Ux = y)
+    for (int i = n - 1; i >= 0; --i)
+    {
+        double sum = 0;
+        for (int j = i + 1; j < n; ++j)
+        {
+            sum += U.getNumber(i, j) * x.getNumber(j, 0);
+        }
+        x.setValue((y.getNumber(i, 0) - sum) / U.getNumber(i, i), i, 0);
+    }
+
+    return x;
+}
+
+EigenValue_Result inversePowerMethodWithLU(Matrice A, Matrice vectorVo, double tolerance)
+{
+    pair<Matrice, Matrice> A_LUdecomposition = A.LU_decomposition();
+    double EigenValue_new = 0;
+    double EigenValue_old = 0;
+    double error = 0;
+    bool stillNotReachTolerance = true;
+    Matrice Vk_new = vectorVo;
+    Matrice Vk_old = Matrice(vectorVo.numberOfRows, vectorVo.numberOfColumns);
+    while (stillNotReachTolerance)
+    {
+        EigenValue_old = EigenValue_new;
+        Vk_old = Vk_new;
+        Vk_old.normalize();
+        Vk_new = solveLU(A_LUdecomposition, Vk_old);
+        EigenValue_new = Vk_old.scalarProductVector(Vk_new);
+        error = abs(((EigenValue_new - EigenValue_old) / EigenValue_new));
+        if (error <= tolerance)
+        {
+            stillNotReachTolerance = false;
+        }
+    }
+    return EigenValue_Result(1 / EigenValue_new, Vk_old);
+}
 
 EigenValue_Result displacementPowerMethod(Matrice A, Matrice vectorVo, double tolerance, double displacement)
 {
@@ -716,7 +770,7 @@ public:
         return ((function(Xi + delta_x) - function(Xi)) / delta_x);
     }
 
-    template<typename Functor>
+    template <typename Functor>
     static double Forward_first_derivate_e1(Functor function, double Xi, double delta_x)
     {
         return ((function(Xi + delta_x) - function(Xi)) / delta_x);
@@ -936,141 +990,147 @@ public:
     }
 };
 
-template<typename Functor>
+template <typename Functor>
 double newtonRaphsonMethod(double Xinitial, double tolerance, Functor function)
 {
     double Xn = Xinitial;
-    double Xnp1 = Xn - function(Xn)/Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
-    while(abs(function(Xnp1)) > tolerance) {
+    double Xnp1 = Xn - function(Xn) / Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+    while (abs(function(Xnp1)) > tolerance)
+    {
         Xn = Xnp1;
-        Xnp1 = Xn - function(Xn)/Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+        Xnp1 = Xn - function(Xn) / Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
     }
     return Xnp1;
 }
 
-class EulerMethods {
-    public:
-        static vector<double> explicitEulerMethod(double So, double deltaT, double (*function)(double), int numbeOfStates){
-            vector<double> states = {So};
-            double Si = 0;
-            for (int i = 1; i <= numbeOfStates; ++i) {
-                Si = states[i-1] + deltaT * function(states[i-1]);
-                states.push_back(Si);
-            }
-            return states;
-        }
-
-        static vector<double> implicitEulerMethod(double So, double deltaT, double (*function)(double), int numberOfStates) 
+class EulerMethods
+{
+public:
+    static vector<double> explicitEulerMethod(double So, double deltaT, double (*function)(double), int numbeOfStates)
+    {
+        vector<double> states = {So};
+        double Si = 0;
+        for (int i = 1; i <= numbeOfStates; ++i)
         {
-            vector<double> states = {So};
-            double Si = 0;
-            int iteration = 1;
-            auto functionToFindRoot = [&Si, function, &states, deltaT, &iteration](double x) {
-                return states[iteration-1] + deltaT * function(x) - x;
-            };
-            while(iteration <= numberOfStates) {
-                Si = newtonRaphsonMethod(1.0, 0.0001, functionToFindRoot);
-                states.push_back(Si);
-                iteration += 1;
-            }
-            return states;
+            Si = states[i - 1] + deltaT * function(states[i - 1]);
+            states.push_back(Si);
         }
+        return states;
+    }
+
+    static vector<double> implicitEulerMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+    {
+        vector<double> states = {So};
+        double Si = 0;
+        int iteration = 1;
+        auto functionToFindRoot = [&Si, function, &states, deltaT, &iteration](double x)
+        {
+            return states[iteration - 1] + deltaT * function(x) - x;
+        };
+        while (iteration <= numberOfStates)
+        {
+            Si = newtonRaphsonMethod(1.0, 0.0001, functionToFindRoot);
+            states.push_back(Si);
+            iteration += 1;
+        }
+        return states;
+    }
 };
 
-class RangeKuttaMethods {
-    public:
-        static vector<double> rangeKuttaSecondOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+class RangeKuttaMethods
+{
+public:
+    static vector<double> rangeKuttaSecondOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+    {
+        vector<double> states = {So};
+        double Si_bar = 0;
+        double Si = 0;
+        for (int i = 1; i <= numberOfStates; ++i)
         {
-            vector<double> states = {So};
-            double Si_bar = 0;
-            double Si = 0;
-            for(int i = 1; i<= numberOfStates; ++i) {
-                Si_bar = EulerMethods::explicitEulerMethod(states[i-1], deltaT, function, 1).back();
-                Si = states[i-1] + deltaT*(0.5*function(states[i-1]) + 0.5*function(Si_bar));
-                states.push_back(Si);
-            }
-            return states;
+            Si_bar = EulerMethods::explicitEulerMethod(states[i - 1], deltaT, function, 1).back();
+            Si = states[i - 1] + deltaT * (0.5 * function(states[i - 1]) + 0.5 * function(Si_bar));
+            states.push_back(Si);
         }
+        return states;
+    }
 
-        static vector<double> rangeKuttaThirdOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+    static vector<double> rangeKuttaThirdOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+    {
+        vector<double> states = {So};
+        double Si_bar, Si_bar_half, Si = 0;
+        for (int i = 1; i <= numberOfStates; ++i)
         {
-            vector<double> states = {So};
-            double Si_bar, Si_bar_half, Si = 0;
-            for(int i = 1; i <= numberOfStates; ++i) {
-                Si_bar_half = EulerMethods::explicitEulerMethod(states[i-1], deltaT/2, function, 1).back();
-                Si_bar = EulerMethods::explicitEulerMethod(states[i-1], deltaT, function, 1).back();
-                Si = states[i-1] + deltaT * ( (1.0/6.0)*function(states[i-1]) + (2.0/3.0)*function(Si_bar_half) +  (1.0/6.0)*function(Si_bar));
-                states.push_back(Si);
-            }
-            return states;
+            Si_bar_half = EulerMethods::explicitEulerMethod(states[i - 1], deltaT / 2, function, 1).back();
+            Si_bar = EulerMethods::explicitEulerMethod(states[i - 1], deltaT, function, 1).back();
+            Si = states[i - 1] + deltaT * ((1.0 / 6.0) * function(states[i - 1]) + (2.0 / 3.0) * function(Si_bar_half) + (1.0 / 6.0) * function(Si_bar));
+            states.push_back(Si);
         }
+        return states;
+    }
 };
 
-class AdamsBashforthMethods {
-    public:
-        static vector<double> adamsBashforthSecondOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates) {
-            vector<double> states = {So};
-            double Si, Si_bar = 0;
-            double S_one = RangeKuttaMethods::rangeKuttaSecondOrderMethod(So, deltaT, function, 1).back();
-            states.push_back(S_one);
-            
-            for (int i = 2; i <= numberOfStates; ++i) {
-                Si_bar = states[i-1] + (deltaT/2) * ( 3*function(states[i-1]) - function(states[i-2]));
-                Si = states[i-1] + deltaT * (0.5*function(states[i-1]) + 0.5*function(Si_bar));
-                states.push_back(Si);
-            }
-            return states;
-        }
+class AdamsBashforthMethods
+{
+public:
+    static vector<double> adamsBashforthSecondOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+    {
+        vector<double> states = {So};
+        double Si, Si_bar = 0;
+        double S_one = RangeKuttaMethods::rangeKuttaSecondOrderMethod(So, deltaT, function, 1).back();
+        states.push_back(S_one);
 
-        static vector<double> adamsBashForthThirdOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+        for (int i = 2; i <= numberOfStates; ++i)
         {
-            vector<double> states = RangeKuttaMethods::rangeKuttaThirdOrderMethod(So, deltaT, function, 2);
-            double Si, Si_bar = 0;
-            for (int i = 3; i <= numberOfStates; ++i) {
-                Si_bar = states[i-1] + (deltaT/12) * (5*function(states[i-3]) - 16*function(states[i-2]) + 23*function(states[i-1]));
-                Si = states[i-1] + (deltaT/12) * (8*function(states[i-1]) - function(states[i-2]) + 5*function(Si_bar));
-                states.push_back(Si);
-            }
-            return states;
+            Si_bar = states[i - 1] + (deltaT / 2) * (3 * function(states[i - 1]) - function(states[i - 2]));
+            Si = states[i - 1] + deltaT * (0.5 * function(states[i - 1]) + 0.5 * function(Si_bar));
+            states.push_back(Si);
         }
+        return states;
+    }
+
+    static vector<double> adamsBashForthThirdOrderMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
+    {
+        vector<double> states = RangeKuttaMethods::rangeKuttaThirdOrderMethod(So, deltaT, function, 2);
+        double Si, Si_bar = 0;
+        for (int i = 3; i <= numberOfStates; ++i)
+        {
+            Si_bar = states[i - 1] + (deltaT / 12) * (5 * function(states[i - 3]) - 16 * function(states[i - 2]) + 23 * function(states[i - 1]));
+            Si = states[i - 1] + (deltaT / 12) * (8 * function(states[i - 1]) - function(states[i - 2]) + 5 * function(Si_bar));
+            states.push_back(Si);
+        }
+        return states;
+    }
 };
 
-
-double yt(double x) {
-    return 2.0/3.0 * x;
+double yt(double x)
+{
+    return 2.0 / 3.0 * x;
 }
 
-double f(double x) {
-    return 2*pow(x,2) - 4*x + 2;
+double f(double x)
+{
+    return 2 * pow(x, 2) - 4 * x + 2;
 }
 
 int main()
 {
-    /* AdamsBashforthMethods teste;
-    vector<double> r = AdamsBashforthMethods::adamsBashForthThirdOrderMethod(2, 0.5, yt, 3);
-
-    for (int i =0; i < r.size(); ++i) {
-        cout << "S" << i << " " << r[i] << '\n';
-    } */
-
-   vector<vector<double>> input = {
+    vector<vector<double>> input = {
+        {5, 2, 1},
         {2, 3, 1},
-        {4, 7, 7},
-        {-2, 4, 5}
-    };
-
+        {1, 1, 2}};
     Matrice A;
     A.setMatriceVector(input);
 
-    pair<Matrice, Matrice> LU = A.LU_decomposition();
+    Matrice VectorVo = Matrice(3, 1);
+    VectorVo.setValue(1, 0, 0);
+    VectorVo.setValue(1, 1, 0);
+    VectorVo.setValue(1, 2, 0);
 
-    cout << "L ======\n";
-    LU.first.printMatrice();
-    cout << "===========\n";
-    cout << "U ==========\n";
-    LU.second.printMatrice();
-    cout << "=========\n";
+    EigenValue_Result teste = powerMethod(A, VectorVo, 0.0001);
 
-
+    cout << "EIGEN VALUE === " << teste.eigenValue << '\n';
+    cout << "EIGEN VECTOR ==== \n";
+    teste.eigenVector.printMatrice();
+    cout << "==========\n";
     return 0;
 }
