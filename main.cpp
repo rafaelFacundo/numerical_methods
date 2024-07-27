@@ -352,8 +352,9 @@ class QRMethodResult
 public:
     Matrice eigenValues;
     Matrice P;
+    Matrice A;
 
-    QRMethodResult(Matrice eigenvalue, Matrice P) : eigenValues{eigenvalue}, P{P} {}
+    QRMethodResult(Matrice eigenvalue, Matrice P, Matrice a) : eigenValues{eigenvalue}, P{P}, A{a} {}
 };
 
 class SVDDecompositionResult
@@ -684,7 +685,7 @@ QRMethodResult qrMethod(Matrice A, double tolerance)
         val = sumofsquaresoftermsbelowthediagonal(A_new);
     }
 
-    return QRMethodResult(A_new.getMainDiagonal(), P);
+    return QRMethodResult(A_new.getMainDiagonal(), P, A_new);
 }
 
 SVDDecompositionResult svdDecomposition(Matrice A)
@@ -1018,6 +1019,18 @@ public:
         return states;
     }
 
+    static vector<Matrice> explicitEulerMethod(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
+    {
+        vector<Matrice> states = {So};
+        Matrice Si = Matrice();
+        for (int i = 1; i <= numberOfStates; ++i)
+        {
+            Si = states[i-1] + function(states[i-1]) * deltaT;
+            states.push_back(Si);
+        }
+        return states;
+    }
+
     static vector<double> implicitEulerMethod(double So, double deltaT, double (*function)(double), int numberOfStates)
     {
         vector<double> states = {So};
@@ -1067,6 +1080,90 @@ public:
         }
         return states;
     }
+
+    static vector<Matrice> rangeKuttaThirdOrderMethod(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
+    {
+        vector<Matrice> states = {So};
+        Matrice Si_bar, Si_bar_half, Si = Matrice();
+        for (int i = 1; i <= numberOfStates; ++i)
+        {
+            Si_bar_half = EulerMethods::explicitEulerMethod(states[i-1], deltaT/2, function, 1).back();
+            Si_bar = EulerMethods::explicitEulerMethod(states[i-1], deltaT, function, 1).back();
+            Si = states[i-1] + (function(states[i - 1]) * (1.0 / 6.0) + function(Si_bar_half) * (2.0 / 3.0) + function(Si_bar) * (1.0 / 6.0)) * deltaT;
+            states.push_back(Si);
+        }
+        return states;
+    }
+
+    static vector<Matrice> rangeKuttaThirdOrderMethod_alternative(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
+    {
+        vector<Matrice> states = {So};
+        Matrice Si_bar, Si_bar_half, Si = Matrice();
+        Matrice F1, F2, F3 = Matrice();
+        for (int i = 1; i <= numberOfStates; ++i)
+        {
+            Si_bar_half = states[i-1] + function(states[i-1]) * (deltaT/2);
+            Si_bar = states[i-1] + (function(Si_bar_half)*2 - function(states[i-1])) * deltaT;
+            Si = states[i-1] + ( function(states[i-1]) * (1.0/6.0) + function(Si_bar_half) * (4.0/6.0) + function(Si_bar) * (1.0/6.0) ) * deltaT;
+            states.push_back(Si);
+        }
+        return states;
+    }
+
+    static vector<Matrice> rangeKuttaFourthOrderMethod_alternative(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
+    {
+        vector<Matrice> states = {So};
+        Matrice S2, S3, S4, Si = Matrice();
+        Matrice F1, F2, F3, F4 = Matrice();
+        for(int i = 1; i <= numberOfStates; ++i)
+        {
+            S2 = states[i-1] + function(states[i-1]) * (deltaT/2);
+            S3 = states[i-1] + function(S2) * (deltaT/2);
+            S4 = states[i-1] + function(S3) * deltaT;
+            Si = states[i-1] + ( function(states[i-1]) + function(S2) * 2 + function(S3) * 2 + function(S4) ) * (deltaT/6.0);
+            states.push_back(Si);
+        }
+        return states;
+    } 
+
+    static vector<Matrice> rangeKuttaThirdOrderMethod_alternative_findZero(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
+    {
+        vector<Matrice> states = {So};
+        Matrice Si_bar, Si_bar_half, Si = Matrice();
+        Matrice F1, F2, F3 = Matrice();
+        bool stillNotreach = true;
+        int i = 1;
+        double maxHeight, timeMax, timeTotal, velocity = 0;
+        while (stillNotreach) {
+            Si_bar_half = states[i-1] + function(states[i-1]) * (deltaT/2);
+            Si_bar = states[i-1] + (function(Si_bar_half)*2 - function(states[i-1])) * deltaT;
+            Si = states[i-1] + ( function(states[i-1]) * (1.0/6.0) + function(Si_bar_half) * (4.0/6.0) + function(Si_bar) * (1.0/6.0) ) * deltaT;
+            states.push_back(Si);
+
+            if (Si.getNumber(1,0) > maxHeight) {
+                maxHeight = Si.getNumber(1,0);
+                timeMax = deltaT * i;
+            }
+            if (Si.getNumber(1,0) < 1) {
+                stillNotreach = false;
+                velocity = Si.getNumber(0,0);
+            }
+            timeTotal = deltaT * i;
+            i += 1;
+        }
+        /* for (int i = 1; i <= numberOfStates; ++i)
+        {
+            Si_bar_half = states[i-1] + function(states[i-1]) * (deltaT/2);
+            Si_bar = states[i-1] + (function(Si_bar_half)*2 - function(states[i-1])) * deltaT;
+            Si = states[i-1] + ( function(states[i-1]) * (1.0/6.0) + function(Si_bar_half) * (4.0/6.0) + function(Si_bar) * (1.0/6.0) ) * deltaT;
+            states.push_back(Si);
+        } */
+       cout << "MAX HEI " << maxHeight << '\n';
+       cout << "MAX TIME " << timeMax << '\n';
+       cout << "TOTAL TIME " << timeTotal << '\n';
+       cout << "VELOCITY " << velocity << '\n';
+        return states;
+    }
 };
 
 class AdamsBashforthMethods
@@ -1100,6 +1197,19 @@ public:
         }
         return states;
     }
+
+    static vector<Matrice> adamsBashForthFourthOrderMethod(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
+    {
+        vector<Matrice> states = RangeKuttaMethods::rangeKuttaFourthOrderMethod_alternative(So, deltaT, function, 3);
+        Matrice Si, Si_bar = Matrice();
+        for (int i = 4; i <= numberOfStates; ++i) 
+        {
+            Si_bar = states[i-1] + (function(states[i-4]) * (-9) + function(states[i-3]) * 37 - function(states[i-2]) * 59 + function(states[i-1]) * 55) * (deltaT/24);
+            Si = states[i-1] + (function(states[i-3]) - function(states[i-2]) * 5 + function(states[i-1]) * 19 + function(Si_bar) * 9) * (deltaT/24);
+            states.push_back(Si);
+        }
+        return states;
+    }
 };
 
 double yt(double x)
@@ -1112,25 +1222,69 @@ double f(double x)
     return 2 * pow(x, 2) - 4 * x + 2;
 }
 
+Matrice fo(Matrice x)
+{
+    double v1 = -10 - (0.5/0.5) * x.getNumber(0,0);
+    double v2 = x.getNumber(0,0);
+    Matrice result = Matrice(2,1);
+    result.setValue(v1, 0,0);
+    result.setValue(v2, 1,0);
+    return result;
+}
+
 int main()
 {
-    vector<vector<double>> input = {
+    AdamsBashforthMethods teste = AdamsBashforthMethods();
+    /* vector<vector<double>> input = {
         {5, 2, 1},
         {2, 3, 1},
         {1, 1, 2}};
-    Matrice A;
-    A.setMatriceVector(input);
 
-    Matrice VectorVo = Matrice(3, 1);
+    vector<vector<double>> input2 = {
+        {-14, 1, -2},
+        {1, -1, 1},
+        {-2, 1, 11}};
+    
+    vector<vector<double>> input3 = {
+        {40,8,4,2,1},
+        {8,30,12,6,2},
+        {4,12,20,1,2},
+        {2,6,1,25,4},
+        {1,2,2,4,5},
+    };
+
+
+    Matrice A;
+    A.setMatriceVector(input3);
+
+    Matrice VectorVo = Matrice(5, 1);
     VectorVo.setValue(1, 0, 0);
     VectorVo.setValue(1, 1, 0);
     VectorVo.setValue(1, 2, 0);
+    VectorVo.setValue(1,3,0);
+    VectorVo.setValue(1,4,0);
 
-    EigenValue_Result teste = powerMethod(A, VectorVo, 0.0001);
+    QRMethodResult t = qrMethod(A, 0.000001);
 
-    cout << "EIGEN VALUE === " << teste.eigenValue << '\n';
-    cout << "EIGEN VECTOR ==== \n";
-    teste.eigenVector.printMatrice();
-    cout << "==========\n";
+    cout << "MATRI A ==============\n";
+    t.A.printMatrice();
+    cout << "===============\n";
+    cout << "MATRI P ============\n";
+    t.P.printMatrice();
+    cout << "===================\n"; */
+    Matrice So = Matrice(2,1);
+    So.setValue(3,  0,0);
+    So.setValue(150,1,0);
+
+    //vector<Matrice> result =  RangeKuttaMethods::rangeKuttaFourthOrderMethod_alternative(So, 0.1, fo, 10);
+    vector<Matrice> result =  AdamsBashforthMethods::adamsBashForthFourthOrderMethod(So, 0.1, fo, 163);
+
+
+    for (auto vec : result) {
+        cout << "============\n";
+        vec.printMatrice();
+        cout << "============\n";
+    }
+
     return 0;
 }
