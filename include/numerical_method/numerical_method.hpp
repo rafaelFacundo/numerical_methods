@@ -1,8 +1,6 @@
 #pragma once
 
-//#include "../visitor/numerical_method_visitor.hpp"
-
-class NumericalMethodVisitor;
+class Visitor;
 
 // this class is doing the job of class strategy in the strategy pattern
 class NumericalMethod {
@@ -21,7 +19,7 @@ class NumericalMethod {
          * @param visitor the numerical method visitor, responsible to show the result of the method
          * @return void - this method does not return any value, just prints the result.
          */
-        //virtual void accept(NumericalMethodVisitor& visitor) const = 0;
+        virtual void accept(Visitor& visitor) const = 0;
         
         /**
          * Used by the context class to call the execution of some numerical method 

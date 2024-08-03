@@ -1,4 +1,5 @@
 #include "derivate/first_derivate_forward_approach.hpp"
+#include "visitor/visitor.hpp"
 #include <iostream>
 #include <ostream>
 using namespace std;
@@ -12,7 +13,7 @@ void FirstDerivateForwardApproach::execute()
     cout << "RESULT IS " << this->result << '\n';
 }
 
-/* void FirstDerivateForwardApproach::accept(NumericalMethodVisitor& visitor) const
+void FirstDerivateForwardApproach::accept(Visitor& visitor) const
 {
-    // /visitor.visit(*this);
-} */
+    visitor.visit(*this);
+}

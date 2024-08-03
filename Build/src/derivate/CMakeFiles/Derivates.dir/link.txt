@@ -1,2 +1,0 @@
-/usr/bin/ar qc libDerivates.a CMakeFiles/Derivates.dir/derivate.cpp.o CMakeFiles/Derivates.dir/first_derivate_foraward_approach.cpp.o
-/usr/bin/ranlib libDerivates.a
