@@ -1,4 +1,4 @@
-#include "../../include/visitor/numerical_method_visitor.hpp";
+#include "visitor/numerical_method_visitor.hpp"
 
 void NumericalMethodVisitor::visit(Derivate& derivateToShowResult) {
     cout << "THE DERIVATE WAS CALCULATED FOR: " << '\n';

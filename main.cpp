@@ -5,9 +5,9 @@
 #include <limits>
 #include <utility>
 #include <memory>
-#include "./include/context_class/context.hpp"
-#include "./include/derivate/first_derivate_foward_approach/first_derivate_forward_approach.hpp"
-#include "./include/visitor/numerical_method_visitor.hpp"
+#include "include/context_class/context.hpp"
+//#include "include/visitor/numerical_method_visitor.hpp"
+#include "include/derivate/first_derivate_forward_approach.hpp"
 using namespace std;
 
 double functionTeste(double x) {
@@ -17,9 +17,10 @@ double functionTeste(double x) {
 int main()
 {
     Context teste = Context();
-    NumericalMethodVisitor visi = NumericalMethodVisitor();
+    //NumericalMethodVisitor visi = NumericalMethodVisitor();
     FirstDerivateForwardApproach deri = FirstDerivateForwardApproach(1, 0.1, functionTeste);
-    teste.set_strategy(make_unique<FirstDerivateForwardApproach>());
-    deri.accept(visi);
+    teste.set_strategy(make_unique<FirstDerivateForwardApproach>(1, 0.1, functionTeste));
+    teste.callExecute();
+   // deri.accept(visi);
     return 0;
 }

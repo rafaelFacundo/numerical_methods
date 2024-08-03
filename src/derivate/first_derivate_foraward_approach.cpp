@@ -1,4 +1,7 @@
-#include "../../../include/derivate/first_derivate_foward_approach/first_derivate_forward_approach.hpp"
+#include "derivate/first_derivate_forward_approach.hpp"
+#include <iostream>
+#include <ostream>
+using namespace std;
 
 FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double deltax, functionWithOneArgument function) : Derivate(xi, deltax, function) {}
 
@@ -6,9 +9,10 @@ FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double del
 void FirstDerivateForwardApproach::execute() 
 {
     this->result = (this->functionToDerive(this->Xi + this->deltaX) - this->functionToDerive(this->Xi)) / this->deltaX;
+    cout << "RESULT IS " << this->result << '\n';
 }
 
-void FirstDerivateForwardApproach::accept(NumericalMethodVisitor visitor) const
+/* void FirstDerivateForwardApproach::accept(NumericalMethodVisitor& visitor) const
 {
-    visitor.visit(*this);
-}
+    // /visitor.visit(*this);
+} */

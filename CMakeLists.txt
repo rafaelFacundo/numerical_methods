@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
+project(NumericalMethods VERSION 1.0)
 
-# Nome do projeto
-project(MyProject)
+include_directories(include)
 
-# Versão do C++ (C++11, C++14, C++17, etc.)
-set(CMAKE_CXX_STANDARD 17)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/derivate)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/context_class)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/src/visitor)
 
-# Diretório de inclusão
-include_directories(${CMAKE_SOURCE_DIR}/include)
+add_executable(${PROJECT_NAME} ./main.cpp)
 
-
-# Adiciona o executável
-add_executable(MyProject main.cpp)
+target_link_libraries(${PROJECT_NAME} Derivates Context)

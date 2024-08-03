@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rafaelfacundo/Documents/numerical_methods/Build/CMakeFiles /home/rafaelfacundo/Documents/numerical_methods/Build//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(CMAKE_COMMAND) -E cmake_progress_start /home/rafaelfacundo/Documents/numerical_methods/Build/CMakeFiles /home/rafaelfacundo/Documents/numerical_methods/Build/src/context_class//CMakeFiles/progress.marks
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/context_class/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/rafaelfacundo/Documents/numerical_methods/Build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/context_class/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,81 +103,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/context_class/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/context_class/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named NumericalMethods
+# Convenience name for target.
+src/context_class/CMakeFiles/Context.dir/rule:
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/context_class/CMakeFiles/Context.dir/rule
+.PHONY : src/context_class/CMakeFiles/Context.dir/rule
 
-# Build rule for target.
-NumericalMethods: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 NumericalMethods
-.PHONY : NumericalMethods
-
-# fast build rule for target.
-NumericalMethods/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NumericalMethods.dir/build.make CMakeFiles/NumericalMethods.dir/build
-.PHONY : NumericalMethods/fast
-
-#=============================================================================
-# Target rules for targets named Derivates
-
-# Build rule for target.
-Derivates: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Derivates
-.PHONY : Derivates
-
-# fast build rule for target.
-Derivates/fast:
-	$(MAKE) $(MAKESILENT) -f src/derivate/CMakeFiles/Derivates.dir/build.make src/derivate/CMakeFiles/Derivates.dir/build
-.PHONY : Derivates/fast
-
-#=============================================================================
-# Target rules for targets named Context
-
-# Build rule for target.
-Context: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Context
+# Convenience name for target.
+Context: src/context_class/CMakeFiles/Context.dir/rule
 .PHONY : Context
 
 # fast build rule for target.
 Context/fast:
-	$(MAKE) $(MAKESILENT) -f src/context_class/CMakeFiles/Context.dir/build.make src/context_class/CMakeFiles/Context.dir/build
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f src/context_class/CMakeFiles/Context.dir/build.make src/context_class/CMakeFiles/Context.dir/build
 .PHONY : Context/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+context.o: context.cpp.o
+.PHONY : context.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NumericalMethods.dir/build.make CMakeFiles/NumericalMethods.dir/main.cpp.o
-.PHONY : main.cpp.o
+context.cpp.o:
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f src/context_class/CMakeFiles/Context.dir/build.make src/context_class/CMakeFiles/Context.dir/context.cpp.o
+.PHONY : context.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+context.i: context.cpp.i
+.PHONY : context.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NumericalMethods.dir/build.make CMakeFiles/NumericalMethods.dir/main.cpp.i
-.PHONY : main.cpp.i
+context.cpp.i:
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f src/context_class/CMakeFiles/Context.dir/build.make src/context_class/CMakeFiles/Context.dir/context.cpp.i
+.PHONY : context.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+context.s: context.cpp.s
+.PHONY : context.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NumericalMethods.dir/build.make CMakeFiles/NumericalMethods.dir/main.cpp.s
-.PHONY : main.cpp.s
+context.cpp.s:
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(MAKE) $(MAKESILENT) -f src/context_class/CMakeFiles/Context.dir/build.make src/context_class/CMakeFiles/Context.dir/context.cpp.s
+.PHONY : context.cpp.s
 
 # Help Target
 help:
@@ -188,11 +163,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Context"
-	@echo "... Derivates"
-	@echo "... NumericalMethods"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... context.o"
+	@echo "... context.i"
+	@echo "... context.s"
 .PHONY : help
 
 
@@ -204,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/rafaelfacundo/Documents/numerical_methods/Build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
