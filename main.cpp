@@ -6,8 +6,8 @@
 #include <utility>
 #include <memory>
 #include "include/context_class/context.hpp"
-//#include "include/visitor/numerical_method_visitor.hpp"
 #include "include/derivate/first_derivate_forward_approach.hpp"
+#include "include/visitor/visitor.hpp"
 using namespace std;
 
 double functionTeste(double x) {
@@ -17,10 +17,11 @@ double functionTeste(double x) {
 int main()
 {
     Context teste = Context();
-    //NumericalMethodVisitor visi = NumericalMethodVisitor();
+    Visitor visi = Visitor();
+    visi.teste();
     FirstDerivateForwardApproach deri = FirstDerivateForwardApproach(1, 0.1, functionTeste);
     teste.set_strategy(make_unique<FirstDerivateForwardApproach>(1, 0.1, functionTeste));
     teste.callExecute();
-   // deri.accept(visi);
+    teste.nmInstance_.get()->accept(visi);
     return 0;
 }

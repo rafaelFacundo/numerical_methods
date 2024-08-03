@@ -1,2 +1,0 @@
-/usr/bin/ar qc libNumericalMethodsVisitor.a CMakeFiles/NumericalMethodsVisitor.dir/numerical_method_visitor.cpp.o
-/usr/bin/ranlib libNumericalMethodsVisitor.a

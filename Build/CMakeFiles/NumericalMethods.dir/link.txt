@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/NumericalMethods.dir/main.cpp.o -o NumericalMethods  src/derivate/libDerivates.a src/context_class/libContext.a 
