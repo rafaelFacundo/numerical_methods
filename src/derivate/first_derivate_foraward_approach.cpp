@@ -10,7 +10,6 @@ FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double del
 void FirstDerivateForwardApproach::execute() 
 {
     this->result = (this->functionToDerive(this->Xi + this->deltaX) - this->functionToDerive(this->Xi)) / this->deltaX;
-    cout << "RESULT IS " << this->result << '\n';
 }
 
 void FirstDerivateForwardApproach::accept(Visitor& visitor) const

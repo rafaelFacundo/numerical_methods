@@ -871,7 +871,6 @@ public:
         auto NewtonCotes_simpson_formula = [function, h, newDelta_x, Xi](int partition)
         {
             double xi = (Xi + partition * newDelta_x);
-            cout << "par " << partition << '\n';
             return (h / 3) * (function(xi) + 4 * function(xi + h) + function(xi + 2 * h));
         };
         return calculate_integral_by_numberOfPartitions(NewtonCotes_simpson_formula, numberOfPartitions);
