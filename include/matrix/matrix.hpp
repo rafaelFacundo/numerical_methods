@@ -13,7 +13,7 @@ public:
     int numberOfRows;
     int numberOfColumns;
 
-    Matrix() {}
+    Matrix();
 
     Matrix(int numberOfRows, int numberOfColumns, bool isIdentity = false);
 
@@ -160,4 +160,6 @@ public:
      * @return A std::pair with the matrix L and U resulted from the LU decomposition
      */
     pair<Matrix, Matrix> LU_decomposition();
+
+    Matrix solveLU(pair<Matrix, Matrix> LU, Matrix b);
 };
