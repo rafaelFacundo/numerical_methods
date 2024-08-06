@@ -10,6 +10,7 @@ class PowerMethods;
 class HouseHolderMethod;
 class JacobiMethod;
 class QRMethod;
+class IPV;
 
 class Visitor {
     public:
@@ -54,6 +55,9 @@ class Visitor {
         void visit(const JacobiMethod& jacobi);
 
         void visit(const QRMethod& qr);
+
+        void visit(const IPV& ipv);
+
 
 
         void teste();

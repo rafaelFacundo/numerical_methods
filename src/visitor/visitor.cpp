@@ -57,6 +57,9 @@ void Visitor::visit(const QRMethod& qr) {
   cout << "THE QR METHOD WAS CALCULATED FOR: \n";
 };
 
+void Visitor::visit(const IPV& ipv) {
+  cout << "THE METHOD WAS CALCULATED FOR: \n";
+};
 
 
 void Visitor::teste() {
