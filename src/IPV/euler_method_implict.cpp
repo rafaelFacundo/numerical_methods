@@ -1,4 +1,5 @@
 #include "IPV/euler_method_implict.hpp"
+#include "derivate/first_derivate_forward_approach.hpp"
 #include "visitor/visitor.hpp"
 
 EulerMethodImplict::EulerMethodImplict(double so, double deltat, functionWithOneArgument function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
@@ -12,11 +13,16 @@ void EulerMethodImplict::accept(Visitor& visitor) const {
 double EulerMethodImplict::newtonRaphsonMethod(double Xinitial, double tolerance, std::function<double(double)> function)
 {
     double Xn = Xinitial;
-    double Xnp1 = Xn - function(Xn); /// Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+    FirstDerivateForwardApproach derivate = FirstDerivateForwardApproach(Xn, 0.0001, this->functionOfState);
+    derivate.execute();
+    //double functionDerivate = derivate.result;
+    double Xnp1 = Xn - function(Xn) / derivate.result;//Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
     while (abs(function(Xnp1)) > tolerance)
     {
         Xn = Xnp1;
-        Xnp1 = Xn - function(Xn); // / Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+        derivate.setXi(Xn);
+        derivate.execute();
+        Xnp1 = Xn - function(Xn) / derivate.result;   // / Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
     }
     return Xnp1;
 };

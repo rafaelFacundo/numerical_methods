@@ -1,4 +1,5 @@
 #include "IPV/adams_bashforth_method_third_order.hpp"
+#include "IPV/range_kutta_method_third_order.hpp"
 #include "visitor/visitor.hpp"
 
 AdamsBashForthThirdOrder::AdamsBashForthThirdOrder(double so, double deltat, functionWithOneArgument function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
@@ -9,7 +10,9 @@ void AdamsBashForthThirdOrder::accept(Visitor& visitor) const {
 };
 
 void AdamsBashForthThirdOrder::execute() {
-    vector<double> states = {0};//RangeKuttaMethods::rangeKuttaThirdOrderMethod(So, deltaT, function, 2);
+    RangeKuttaThirdOrderMethod range = RangeKuttaThirdOrderMethod(this->So, this->deltaT, this->functionOfState, 2);
+    range.execute();
+    vector<double> states = range.result;
     double Si, Si_bar = 0;
     for (int i = 3; i <= this->numbeOfStates; ++i)
     {

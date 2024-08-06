@@ -13,4 +13,6 @@ class IPV : public NumericalMethod {
         vector<double> result;
 
         IPV(double so, double deltat, functionWithOneArgument function, int numbeofstates);
+
+        void updateValues(double so, double deltat, functionWithOneArgument function, int numbeofstates);
 };

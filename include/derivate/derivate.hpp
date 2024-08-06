@@ -10,4 +10,6 @@ class Derivate : public NumericalMethod {
         functionWithOneArgument functionToDerive;
 
         Derivate(double xi, double deltax, functionWithOneArgument function);
+
+        void setXi(double xi);
 };
