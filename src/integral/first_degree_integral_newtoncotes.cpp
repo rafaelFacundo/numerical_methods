@@ -36,3 +36,12 @@ double FirstDegreeIntegralNewtonCotes::calculateIntegralByError()
     };
     return this->calculate_integral_by_error(NewtonCotes_firstDegree_formula, tolerance, this->deltaX, newDelta_x);
 };
+
+void FirstDegreeIntegralNewtonCotes::execute()
+{
+    if(this->numberOfPartitions != -1) {
+        this->result = this->calculateIntegralByPartitions();
+    }else {
+        this->result = this->calculateIntegralByError();
+    }
+};

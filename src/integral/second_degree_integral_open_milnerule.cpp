@@ -33,3 +33,12 @@ double SecondDegreeIntegralOpenMilneRule::calculateIntegralByError()
     };
     return this->calculate_integral_by_error(NewtonCotes_milne_rule_formula, tolerance, this->deltaX, newDelta_x);
 };
+
+void SecondDegreeIntegralOpenMilneRule::execute()
+{
+    if(this->numberOfPartitions != -1) {
+        this->result = this->calculateIntegralByPartitions();
+    }else {
+        this->result = this->calculateIntegralByError();
+    }
+};

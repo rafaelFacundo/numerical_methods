@@ -5,10 +5,6 @@
 
 class Integral : public NumericalMethod {
     public:
-        //implementations 
-        double newDeltax;
-        double h;
-
         double deltaX;
         double Xi;
         int numberOfPartitions;
@@ -51,11 +47,5 @@ class Integral : public NumericalMethod {
         virtual double calculateIntegralByError() = 0;
         virtual double calculateIntegralByPartitions() = 0;
 
-        /**
-         * Used by the context class to call the execution of some numerical method 
-         * This method does not receive any parameter
-         * 
-         * @return void - This method does not return any value, just sets the result on the result attribute 
-         */
-        void execute() override;
+        
 };

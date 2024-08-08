@@ -6,6 +6,7 @@ using namespace std;
 
 class Derivate;
 class Integral;
+class IntegralGauss;
 class PowerMethods;
 class HouseHolderMethod;
 class JacobiMethod;
@@ -58,7 +59,7 @@ class Visitor {
 
         void visit(const IPV& ipv);
 
-
+        void visit(const IntegralGauss& integral);
 
         void teste();
 };

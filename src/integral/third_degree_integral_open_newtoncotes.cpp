@@ -33,3 +33,12 @@ double ThirdDegreeIntegralOpenNewtonCotes::calculateIntegralByError()
     };
     return this->calculate_integral_by_error(NewtonCotes_third_degree_open_formula, tolerance, this->deltaX, newDelta_x);
 };
+
+void ThirdDegreeIntegralOpenNewtonCotes::execute()
+{
+    if(this->numberOfPartitions != -1) {
+        this->result = this->calculateIntegralByPartitions();
+    }else {
+        this->result = this->calculateIntegralByError();
+    }
+};
