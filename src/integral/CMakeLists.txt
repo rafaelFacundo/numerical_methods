@@ -20,4 +20,6 @@ add_library(${PROJECT_NAME}
     ./third_degree_integral_gausshermite.cpp
     ./third_degree_integral_gausslaguerre.cpp
     ./third_degree_integral_gausslegendre.cpp
+    ./integral_special_simple_exponential_newton_cotes.cpp
+    ./integral_special_double_exponential_newton_cotes.cpp
 )

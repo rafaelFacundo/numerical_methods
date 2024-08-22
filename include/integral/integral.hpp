@@ -10,7 +10,7 @@ class Integral : public NumericalMethod {
         int numberOfPartitions;
         double tolerance;
         double result;
-        functionWithOneArgument functionToIntegrate;
+        std::function<double(int)> functionToIntegrate;
      
  
         /**
@@ -21,7 +21,7 @@ class Integral : public NumericalMethod {
          * @param function the function to integrate
          * @param numberOfPartitions the number of partitions in the integration interval
          */
-        Integral(double xi, double deltax, functionWithOneArgument function, int numberOfPartitions);
+        Integral(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions);
 
         /**
          * Constructor for the integral class to use the integration by error tolerance
@@ -31,7 +31,7 @@ class Integral : public NumericalMethod {
          * @param function the function to integrate
          * @param tolerance the tolerance of the error
          */
-        Integral(double xi, double deltax, functionWithOneArgument function, double tolerance);
+        Integral(double xi, double deltax, std::function<double(int)> function, double tolerance);
 
         /**
          * A method used internally by integral class to calculate the result by number of partitions

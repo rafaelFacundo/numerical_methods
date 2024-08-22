@@ -1,7 +1,7 @@
 #include "integral/third_degree_integral_gausslegendre.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralGuassLegendre::ThirdDegreeIntegralGuassLegendre(double xi, double xf, functionWithOneArgument function) : 
+ThirdDegreeIntegralGuassLegendre::ThirdDegreeIntegralGuassLegendre(double xi, double xf, std::function<double(int)> function) : 
     IntegralGauss(xi, xf, function, vector<double>{-0.774596669, 0, 0.774596669}, vector<double>{5.0/9.0, 8.0/9.0, 5.0/9.0}) 
     {};
 

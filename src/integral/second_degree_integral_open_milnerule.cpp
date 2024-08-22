@@ -1,9 +1,9 @@
 #include "integral/second_degree_integral_open_milnerule.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, functionWithOneArgument function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
 
-SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, functionWithOneArgument function, double tolerance) : Integral(xi, deltax, function, tolerance){};
+SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
 
 void SecondDegreeIntegralOpenMilneRule::accept(Visitor& visitor) const {
     visitor.visit(*this);

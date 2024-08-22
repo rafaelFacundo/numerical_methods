@@ -1,7 +1,7 @@
 #include "integral/third_degree_integral_gausschebyshev.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralGuassChebyShev::ThirdDegreeIntegralGuassChebyShev(double xi, double xf, functionWithOneArgument function) : 
+ThirdDegreeIntegralGuassChebyShev::ThirdDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(int)> function) : 
     IntegralGauss(xi, xf, function, vector<double>{-0.866025404, 0, 0.866025404}, vector<double>{1.047197551, 1.047197551, 1.047197551}) 
     {};
 

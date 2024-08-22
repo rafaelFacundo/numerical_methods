@@ -1,9 +1,9 @@
 #include "integral/second_degree_integral_simpson_onethird.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, functionWithOneArgument function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
 
-SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, functionWithOneArgument function, double tolerance) : Integral(xi, deltax, function, tolerance){};
+SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
 
 void SecondDegreeIntegralSimpsonOnethird::accept(Visitor& visitor) const {
     visitor.visit(*this);

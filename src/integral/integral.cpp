@@ -4,7 +4,7 @@
 #include <limits>
 using namespace std;
 
-Integral::Integral(double xi, double deltax, functionWithOneArgument function, int numberOfPartitions)
+Integral::Integral(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions)
 {
     this->Xi = xi;
     this->deltaX = deltax;
@@ -13,7 +13,7 @@ Integral::Integral(double xi, double deltax, functionWithOneArgument function, i
     this->tolerance = -1;
 };
 
-Integral::Integral(double xi, double deltax, functionWithOneArgument function, double tolerance)
+Integral::Integral(double xi, double deltax, std::function<double(int)> function, double tolerance)
 {
     this->Xi = xi;
     this->deltaX = deltax;

@@ -2,9 +2,9 @@
 #include "visitor/visitor.hpp"
 
 
-FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, functionWithOneArgument function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
 
-FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, functionWithOneArgument function, double tolerance) : Integral(xi, deltax, function, tolerance){};
+FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
 
 void FirstDegreeIntegralNewtonCotes::accept(Visitor& visitor) const {
     visitor.visit(*this);

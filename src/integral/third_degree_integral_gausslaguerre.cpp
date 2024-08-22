@@ -1,7 +1,7 @@
 #include "integral/third_degree_integral_gausslaguerre.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralGuassLaguerre::ThirdDegreeIntegralGuassLaguerre(double xi, double xf, functionWithOneArgument function) : 
+ThirdDegreeIntegralGuassLaguerre::ThirdDegreeIntegralGuassLaguerre(double xi, double xf, std::function<double(int)> function) : 
     IntegralGauss(xi, xf, function, vector<double>{0.4157745568, 2.2942803603, 6.2899450829}, vector<double>{0.7110930099, 0.7110930099, 0.0103892565}) 
     {};
 

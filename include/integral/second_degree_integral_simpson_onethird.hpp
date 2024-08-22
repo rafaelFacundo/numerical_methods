@@ -11,7 +11,7 @@ class SecondDegreeIntegralSimpsonOnethird : public Integral {
          * @param function the function to integrate
          * @param numberOfPartitions the number of partitions in the integration interval
          */
-        SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, functionWithOneArgument function, int numberOfPartitions);
+        SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions);
 
         /**
          * Constructor for the integral class to use the integration by error tolerance
@@ -21,7 +21,7 @@ class SecondDegreeIntegralSimpsonOnethird : public Integral {
          * @param function the function to integrate
          * @param tolerance the tolerance of the error
          */
-        SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, functionWithOneArgument function, double tolerance);
+        SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(int)> function, double tolerance);
 
         /**
          * This method is the accept method for the visitor pattern

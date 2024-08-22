@@ -1,7 +1,7 @@
 #include "integral/second_degree_integral_gausslegendre.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralGuassLegendre::SecondDegreeIntegralGuassLegendre(double xi, double xf, functionWithOneArgument function) : 
+SecondDegreeIntegralGuassLegendre::SecondDegreeIntegralGuassLegendre(double xi, double xf, std::function<double(int)> function) : 
     IntegralGauss(xi, xf, function, vector<double>{-0.577350269, 0.577350269}, vector<double>{1,1}) 
     {};
 

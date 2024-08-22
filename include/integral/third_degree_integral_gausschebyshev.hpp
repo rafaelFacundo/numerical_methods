@@ -14,7 +14,7 @@ class ThirdDegreeIntegralGuassChebyShev : public IntegralGauss {
          * @param deltax the distance between the xi and the xf, that is, the integration interval
          * @param function the function to integrate
          */
-        ThirdDegreeIntegralGuassChebyShev(double xi, double xf, functionWithOneArgument function);
+        ThirdDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(int)> function);
 
         /**
          * This method is the accept method for the visitor pattern

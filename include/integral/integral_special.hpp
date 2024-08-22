@@ -1,16 +1,21 @@
 #pragma once
 #include "../numerical_method/numerical_method.hpp"
-#include "../../types/functions.hpp"
+
+#include <functional>
 
 class IntegralSpecial : public NumericalMethod
 {
 public:
-    functionWithOneArgument functionToIntegrate;
+    std::function<double(int)> functionToIntegrate;
     double Xi;
     double Xf;
     double result;
 
-    IntegralSpecial(functionWithOneArgument function, double xi, double xf);
+    IntegralSpecial(std::function<double(int)> function, double xi, double xf);
 
     void accept(Visitor &visitor) const override;
+
+    virtual double Xs(double s) = 0;
+
+    virtual double DXs(double s) = 0;
 };
