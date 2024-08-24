@@ -31,4 +31,5 @@ void InversePowerMethodWithLU::execute() {
         }
     }
     this->result =  PowerMethodResult(1 / EigenValue_new, Vk_old);
+    this->printResult();
 };

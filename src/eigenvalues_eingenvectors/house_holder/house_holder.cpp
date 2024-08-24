@@ -23,6 +23,7 @@ Matrix HouseHolderMethod::houseHolderMatrixBasedOnColumnIfromPreviousMatrix(Matr
     return I - TwoTimesNtimesN;
 };
 
+
 void HouseHolderMethod::execute() 
 {
     Matrix H = Matrix(A.numberOfRows, A.numberOfColumns, true);
@@ -38,4 +39,13 @@ void HouseHolderMethod::execute()
     }
     //Matrix A_hat = Ai;
     this->result = HouseHolderMethodResult(Ai, H);
+    this->printResult();
+};
+
+void HouseHolderMethod::printResult() {
+    cout << "RESULT = \n";
+    cout << "A HAT MATRIX = \n";
+    this->result.A_hat_matrix.printMatrix();
+    cout << "H MATRIX \n";
+    this->result.H_matrix.printMatrix();
 };

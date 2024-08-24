@@ -17,4 +17,5 @@ void InversePowerMethod::execute() {
     result.eigenValue = 1 / result.eigenValue;
     //this->result =  PowerMethodResult((1 / result.eigenValue), result.eigenVector);
     this->result = result;
+    this->printResult();
 };

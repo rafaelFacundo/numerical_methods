@@ -11,4 +11,5 @@ class PowerMethods : public NumericalMethod {
         PowerMethodResult result;
 
         PowerMethods(Matrix a, Matrix vectorvo, double tolerance);
+        void printResult();
 };

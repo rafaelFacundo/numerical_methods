@@ -30,4 +30,5 @@ void PowerMethod::execute() {
         }
     }
     this->result = PowerMethodResult(newEigenValue, Vk_old);
+    this->printResult();
 };

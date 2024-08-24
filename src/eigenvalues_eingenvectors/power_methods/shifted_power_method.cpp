@@ -19,4 +19,5 @@ void ShiftedPowerMethod::execute() {
     result.eigenValue = result.eigenValue + this->shift;
     //return EigenValue_Result((result.eigenValue + displacement), result.eigenVector);
     this->result = result;
+    this->printResult();
 };

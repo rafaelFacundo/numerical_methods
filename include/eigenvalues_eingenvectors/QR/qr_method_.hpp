@@ -36,4 +36,6 @@ class QRMethod : public NumericalMethod {
         Matrix JacobiMatrixBasedOnElement_ij_OfOldQRMatrix(Matrix A, int i, int j);
 
         QRdecompositionResult qrDecomposition(Matrix A);
+
+        void printResult();
 };

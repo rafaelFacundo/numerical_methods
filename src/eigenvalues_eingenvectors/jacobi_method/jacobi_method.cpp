@@ -80,3 +80,10 @@ void JacobiMethod::execute(){
     this->result = JacobiMethodResult(A_new_Jij.A.getMainDiagonal(), P);
 };
 
+void JacobiMethod::printResult() {
+    cout << "RESULT = \n";
+    cout << "P HAT MATRIX = \n";
+    this->result.P.printMatrix();
+    cout << "EIGENVALUES \n";
+    this->result.eigenValues.printMatrix();
+};

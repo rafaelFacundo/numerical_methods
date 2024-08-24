@@ -87,4 +87,15 @@ void QRMethod::execute() {
     }
 
     this->result = QRMethodResult(A_new.getMainDiagonal(), P, A_new);
+    this->printResult();
+};
+
+void QRMethod::printResult() {
+    cout << "RESULT = \n";
+    cout << "A HAT MATRIX = \n";
+    this->result.A.printMatrix();
+    cout << "P HAT MATRIX = \n";
+    this->result.P.printMatrix();
+    cout << "EIGENVALUES \n";
+    this->result.eigenValues.printMatrix();
 };

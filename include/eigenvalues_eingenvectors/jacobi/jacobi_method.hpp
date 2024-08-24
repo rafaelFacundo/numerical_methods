@@ -35,4 +35,6 @@ class JacobiMethod : public NumericalMethod {
         double sumofsquaresoftermsbelowthediagonal(Matrix A);
 
         Matrix JacobiMatrixBasedOnElement_ij_OfOldMatrix(Matrix A, int i, int j);
+
+        void printResult();
 };

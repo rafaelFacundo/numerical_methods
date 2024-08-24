@@ -29,4 +29,5 @@ class HouseHolderMethod : public NumericalMethod {
 
         Matrix houseHolderMatrixBasedOnColumnIfromPreviousMatrix(Matrix A, int i);
 
+        void printResult();
 };
