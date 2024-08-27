@@ -4,7 +4,7 @@
 #include <limits>
 using namespace std;
 
-Integral::Integral(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions)
+Integral::Integral(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions)
 {
     this->Xi = xi;
     this->deltaX = deltax;
@@ -13,7 +13,7 @@ Integral::Integral(double xi, double deltax, std::function<double(int)> function
     this->tolerance = -1;
 };
 
-Integral::Integral(double xi, double deltax, std::function<double(int)> function, double tolerance)
+Integral::Integral(double xi, double deltax, std::function<double(double)> function, double tolerance)
 {
     this->Xi = xi;
     this->deltaX = deltax;
@@ -22,8 +22,7 @@ Integral::Integral(double xi, double deltax, std::function<double(int)> function
     this->numberOfPartitions = -1;
 };
 
-
-double Integral::calculate_integral_by_numberOfPartitions(std::function<double(int)>  integralFormula, int numberOfPartitions)
+double Integral::calculate_integral_by_numberOfPartitions(std::function<double(int)> integralFormula, int numberOfPartitions)
 {
     double result = 0;
     for (int partition = 0; partition < this->numberOfPartitions; ++partition)
@@ -32,7 +31,6 @@ double Integral::calculate_integral_by_numberOfPartitions(std::function<double(i
     }
     return result;
 };
-
 
 double Integral::calculate_integral_by_error(std::function<double(int)> integralFormula, double tolerance, double delta_x, double &newDelta_x)
 {
@@ -49,4 +47,3 @@ double Integral::calculate_integral_by_error(std::function<double(int)> integral
     }
     return result;
 };
-

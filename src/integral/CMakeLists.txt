@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(Integrals VERSION 1.0)
 
 include_directories(include)
+include_directories(include/visitor)
+
 
 add_library(${PROJECT_NAME}
     ./integral.cpp

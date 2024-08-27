@@ -1,15 +1,16 @@
 #pragma once
 #include "./integral_special.hpp"
 
-class IntegralDoubleExponentialNewtonCotes : public IntegralSpecial {
-    public:
-        double tolerance;
+class IntegralDoubleExponentialNewtonCotes : public IntegralSpecial
+{
+public:
+    double tolerance;
 
-        IntegralDoubleExponentialNewtonCotes(std::function<double(int)> function, double xi, double xf, double tolerance);
+    IntegralDoubleExponentialNewtonCotes(std::function<double(double)> function, double xi, double xf, double tolerance);
 
-        void execute() override;
+    void execute() override;
 
-        double Xs(double s) override;
+    double Xs(double s) override;
 
-        double DXs(double s) override;
+    double DXs(double s) override;
 };

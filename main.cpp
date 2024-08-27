@@ -39,41 +39,52 @@
 
 using namespace std;
 
-double sin2x(double x) {
+double sin2x(double x)
+{
     return pow(sin(x), 2);
-} 
+}
 
 int main()
 {
 
     vector<unique_ptr<NumericalMethod>> testes = {
-       /*   make_unique<FirstDerivateForwardApproach>(2.0,0.0001, sin2x),
-       make_unique<FirstDerivateBackwardApproach>(2.0,0.0001, sin2x),
-        make_unique<FirstDerivateCentralApproach>(2.0,0.0001, sin2x),
-        make_unique<SecondDerivateCentralApproach>(2.0,0.0001, sin2x),
-        make_unique<SecondDerivateBackwardApproach>(2.0,0.0001, sin2x),
-        make_unique<SecondDerivateForwardApproach>(2.0,0.0001, sin2x),
-        make_unique<ThirdDerivateNewtonApproach>(2.0,0.0001, sin2x), */
+        /*   make_unique<FirstDerivateForwardApproach>(2.0,0.0001, sin2x),
+        make_unique<FirstDerivateBackwardApproach>(2.0,0.0001, sin2x),
+         make_unique<FirstDerivateCentralApproach>(2.0,0.0001, sin2x),
+         make_unique<SecondDerivateCentralApproach>(2.0,0.0001, sin2x),
+         make_unique<SecondDerivateBackwardApproach>(2.0,0.0001, sin2x),
+         make_unique<SecondDerivateForwardApproach>(2.0,0.0001, sin2x),
+         make_unique<ThirdDerivateNewtonApproach>(2.0,0.0001, sin2x), */
     };
-    testes.push_back(make_unique<FirstDegreeIntegralNewtonCotes>(1.0,6.0, sin2x, 10));
-    testes.push_back(make_unique<FirstDegreeIntegralOpenNewtonCotes>(1.0,6.0, sin2x, 10));
-    testes.push_back(make_unique<SecondDegreeIntegralOpenMilneRule>(1.0,6.0, sin2x, 10));
 
-    testes.push_back(make_unique<SecondDegreeIntegralSimpsonOnethird>(1.0,6.0, sin2x, 10));
-    testes.push_back(make_unique<ThirdDegreeIntegralSimpsonThreeEighths>(1.0,6.0, sin2x, 10));
-    testes.push_back(make_unique<ThirdDegreeIntegralOpenNewtonCotes>(1.0,6.0, sin2x, 10));
+    /* testes.push_back(make_unique<FirstDerivateForwardApproach>(2.0, 0.0001, sin2x));
+    testes.push_back(make_unique<FirstDerivateBackwardApproach>(2.0, 0.0001, sin2x));
+    testes.push_back(make_unique<FirstDerivateCentralApproach>(2.0, 0.0001, sin2x));
 
-    //testes.push_back(make_unique<ThirdDerivateNewtonApproach>(2.0,0.0000000001, sin2x));
+    testes.push_back(make_unique<SecondDerivateCentralApproach>(2.0, 0.0001, sin2x));
+    testes.push_back(make_unique<SecondDerivateBackwardApproach>(2.0, 0.0001, sin2x));
+    testes.push_back(make_unique<SecondDerivateForwardApproach>(2.0, 0.0001, sin2x));
+    testes.push_back(make_unique<ThirdDerivateNewtonApproach>(2.0, 0.0001, sin2x)); */
 
+    /*  testes.push_back(make_unique<FirstDegreeIntegralNewtonCotes>(1.0, 6.0, sin2x, 10));
+     testes.push_back(make_unique<FirstDegreeIntegralOpenNewtonCotes>(1.0, 6.0, sin2x, 10));
+     testes.push_back(make_unique<SecondDegreeIntegralOpenMilneRule>(1.0, 6.0, sin2x, 10));
+
+     testes.push_back(make_unique<SecondDegreeIntegralSimpsonOnethird>(1.0, 6.0, sin2x, 10));
+     testes.push_back(make_unique<ThirdDegreeIntegralSimpsonThreeEighths>(1.0, 6.0, sin2x, 10));
+     testes.push_back(make_unique<ThirdDegreeIntegralOpenNewtonCotes>(1.0, 6.0, sin2x, 10)); */
+
+    // testes.push_back(make_unique<ThirdDerivateNewtonApproach>(2.0,0.0000000001, sin2x));
 
     Context teste = Context();
     Visitor visi = Visitor();
     int i = 0;
-    for (auto& method : testes) {
+    for (auto &method : testes)
+    {
         cout << "TESTE " << i << '\n';
         teste.set_strategy(move(method));
         teste.callExecute();
-        /* if (teste.nmInstance_) { 
+        /* if (teste.nmInstance_) {
             teste.nmInstance_->accept(visi);
         } */
         teste.nmInstance_.get()->accept(visi);

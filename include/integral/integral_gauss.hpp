@@ -5,32 +5,33 @@
 #include <functional>
 using namespace std;
 
-class IntegralGauss : public NumericalMethod {
-    public:
-        double Xi;
-        double Xf;
-        double result;
-        std::function<double(int)> functionToIntegrate;
-        vector<double> roots;
-        vector<double> weights;
+class IntegralGauss : public NumericalMethod
+{
+public:
+    double Xi;
+    double Xf;
+    double result;
+    std::function<double(double)> functionToIntegrate;
+    vector<double> roots;
+    vector<double> weights;
 
-        /**
-         * Constructor for the integral class to use the integration by number of partitions
-         *
-         * @param xi the start point xi
-         * @param deltax the distance between the xi and the xf, that is, the integration interval
-         * @param function the function to integrate
-         */
-        IntegralGauss(double xi, double xf, std::function<double(int)> function, vector<double> root, vector<double> weight);
+    /**
+     * Constructor for the integral class to use the integration by number of partitions
+     *
+     * @param xi the start point xi
+     * @param deltax the distance between the xi and the xf, that is, the integration interval
+     * @param function the function to integrate
+     */
+    IntegralGauss(double xi, double xf, std::function<double(double)> function, vector<double> root, vector<double> weight);
 
-        /**
-         * This method is the accept method for the visitor pattern
-         * used to get the result of the calculation of a method
-         *
-         * 
-         * @return void - this method does not return any value, just prints the result.
-         */
-        void accept(Visitor& visitor) const override;
+    /**
+     * This method is the accept method for the visitor pattern
+     * used to get the result of the calculation of a method
+     *
+     *
+     * @return void - this method does not return any value, just prints the result.
+     */
+    void accept(Visitor &visitor) const override;
 
-        virtual double getXk(int rootIndex) = 0;
+    virtual double getXk(int rootIndex) = 0;
 };

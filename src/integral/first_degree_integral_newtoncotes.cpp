@@ -1,16 +1,14 @@
 #include "integral/first_degree_integral_newtoncotes.hpp"
-#include "visitor/visitor.hpp"
+#include "/home/rafael/Documents/numerical_methods/include/visitor/visitor.hpp"
 
+FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
 
-FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 
-FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
-
-void FirstDegreeIntegralNewtonCotes::accept(Visitor& visitor) const {
+void FirstDegreeIntegralNewtonCotes::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
-
-
 
 double FirstDegreeIntegralNewtonCotes::calculateIntegralByPartitions()
 {
@@ -39,9 +37,12 @@ double FirstDegreeIntegralNewtonCotes::calculateIntegralByError()
 
 void FirstDegreeIntegralNewtonCotes::execute()
 {
-    if(this->numberOfPartitions != -1) {
+    if (this->numberOfPartitions != -1)
+    {
         this->result = this->calculateIntegralByPartitions();
-    }else {
+    }
+    else
+    {
         this->result = this->calculateIntegralByError();
     }
 };

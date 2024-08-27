@@ -1,11 +1,12 @@
 #include "integral/third_degree_integral_open_newtoncotes.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
 
-ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
+ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 
-void ThirdDegreeIntegralOpenNewtonCotes::accept(Visitor& visitor) const {
+void ThirdDegreeIntegralOpenNewtonCotes::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
@@ -23,7 +24,7 @@ double ThirdDegreeIntegralOpenNewtonCotes::calculateIntegralByPartitions()
 
 double ThirdDegreeIntegralOpenNewtonCotes::calculateIntegralByError()
 {
-   double newDelta_x = 0;
+    double newDelta_x = 0;
     double h = newDelta_x / 5;
     auto NewtonCotes_third_degree_open_formula = [this, &h, &newDelta_x](int partition)
     {
@@ -36,9 +37,12 @@ double ThirdDegreeIntegralOpenNewtonCotes::calculateIntegralByError()
 
 void ThirdDegreeIntegralOpenNewtonCotes::execute()
 {
-    if(this->numberOfPartitions != -1) {
+    if (this->numberOfPartitions != -1)
+    {
         this->result = this->calculateIntegralByPartitions();
-    }else {
+    }
+    else
+    {
         this->result = this->calculateIntegralByError();
     }
 };

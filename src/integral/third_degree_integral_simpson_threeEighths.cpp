@@ -1,22 +1,23 @@
 #include "integral/third_degree_integral_simpson_threeEighths.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
 
-ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
+ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 
-void ThirdDegreeIntegralSimpsonThreeEighths::accept(Visitor& visitor) const {
+void ThirdDegreeIntegralSimpsonThreeEighths::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
 double ThirdDegreeIntegralSimpsonThreeEighths::calculateIntegralByPartitions()
 {
     double newDelta_x = this->deltaX / this->numberOfPartitions;
-    double h = newDelta_x / 2;
+    double h = newDelta_x / 3;
     auto NewtonCotes_simpson_formula = [this, h, newDelta_x](int partition)
     {
         double xi = (Xi + partition * newDelta_x);
-        return (h / 3) * (this->functionToIntegrate(this->Xi) + 4 * this->functionToIntegrate(this->Xi + h) + this->functionToIntegrate(this->Xi + 2 * h));
+        return (3 * h / 8) * (this->functionToIntegrate(this->Xi) + 4 * this->functionToIntegrate(this->Xi + h) + this->functionToIntegrate(this->Xi + 2 * h));
     };
     return this->calculate_integral_by_numberOfPartitions(NewtonCotes_simpson_formula, numberOfPartitions);
 };
@@ -36,9 +37,12 @@ double ThirdDegreeIntegralSimpsonThreeEighths::calculateIntegralByError()
 
 void ThirdDegreeIntegralSimpsonThreeEighths::execute()
 {
-    if(this->numberOfPartitions != -1) {
+    if (this->numberOfPartitions != -1)
+    {
         this->result = this->calculateIntegralByPartitions();
-    }else {
+    }
+    else
+    {
         this->result = this->calculateIntegralByError();
     }
 };

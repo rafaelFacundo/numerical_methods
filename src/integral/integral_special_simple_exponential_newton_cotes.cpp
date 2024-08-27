@@ -3,25 +3,26 @@
 #include <math.h>
 using namespace std;
 
-IntegralSimpleExponentialNewtonCotes::IntegralSimpleExponentialNewtonCotes(std::function<double(int)> function, double xi, double xf, double tolerance)
+IntegralSimpleExponentialNewtonCotes::IntegralSimpleExponentialNewtonCotes(std::function<double(double)> function, double xi, double xf, double tolerance)
     : IntegralSpecial(function, xi, xf), tolerance{tolerance} {};
 
 double IntegralSimpleExponentialNewtonCotes::Xs(double s)
 {
-    return (this->Xi + this->Xf)/2 + ((this->Xf - this->Xi) / 2 ) * tanh(s);
+    return (this->Xi + this->Xf) / 2 + ((this->Xf - this->Xi) / 2) * tanh(s);
 };
 
-double IntegralSimpleExponentialNewtonCotes::DXs(double s) 
+double IntegralSimpleExponentialNewtonCotes::DXs(double s)
 {
-    return ((this->Xf - this->Xi) / 2 ) * (1/pow(cosh(s), 2));
+    return ((this->Xf - this->Xi) / 2) * (1 / pow(cosh(s), 2));
 };
 
-
-void IntegralSimpleExponentialNewtonCotes::execute() {
-    auto t = [this](double x) {
+void IntegralSimpleExponentialNewtonCotes::execute()
+{
+    auto t = [this](double x)
+    {
         return this->functionToIntegrate(this->Xs(x)) * this->DXs(x);
     };
-    ThirdDegreeIntegralOpenNewtonCotes integra = ThirdDegreeIntegralOpenNewtonCotes( -10, 10, t, this->tolerance);
+    ThirdDegreeIntegralOpenNewtonCotes integra = ThirdDegreeIntegralOpenNewtonCotes(-10, 10, t, this->tolerance);
     integra.execute();
     this->result = integra.result;
 };

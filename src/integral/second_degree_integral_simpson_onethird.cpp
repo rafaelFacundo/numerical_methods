@@ -1,15 +1,14 @@
 #include "integral/second_degree_integral_simpson_onethird.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(int)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions){};
+SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
 
-SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(int)> function, double tolerance) : Integral(xi, deltax, function, tolerance){};
+SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 
-void SecondDegreeIntegralSimpsonOnethird::accept(Visitor& visitor) const {
+void SecondDegreeIntegralSimpsonOnethird::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
-
-
 
 double SecondDegreeIntegralSimpsonOnethird::calculateIntegralByPartitions()
 {
@@ -18,7 +17,7 @@ double SecondDegreeIntegralSimpsonOnethird::calculateIntegralByPartitions()
     auto NewtonCotes_simpson_formula = [this, h, newDelta_x](int partition)
     {
         double xi = (this->Xi + partition * newDelta_x);
-        return (h / 3) * (this->functionToIntegrate(xi) + 4 * this->functionToIntegrate(xi + h) + this->functionToIntegrate(xi + 2 * h));
+        return (h / 3) * (this->functionToIntegrate(xi) + 3 * this->functionToIntegrate(xi + h) + 3 * this->functionToIntegrate(xi + 2 * h) + this->functionToIntegrate(xi + 3 * h));
     };
     return this->calculate_integral_by_numberOfPartitions(NewtonCotes_simpson_formula, numberOfPartitions);
 };
@@ -38,9 +37,12 @@ double SecondDegreeIntegralSimpsonOnethird::calculateIntegralByError()
 
 void SecondDegreeIntegralSimpsonOnethird::execute()
 {
-    if(this->numberOfPartitions != -1) {
+    if (this->numberOfPartitions != -1)
+    {
         this->result = this->calculateIntegralByPartitions();
-    }else {
+    }
+    else
+    {
         this->result = this->calculateIntegralByError();
     }
 };
