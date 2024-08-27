@@ -12,7 +12,7 @@ void SecondDerivateCentralApproach::execute()
     FirstDerivateCentralApproach derivate_pointXi_m_Delta = FirstDerivateCentralApproach(this->Xi - this->deltaX, this->deltaX, this->functionToDerive);
     derivate_pointXi_p_Delta.execute();
     derivate_pointXi_m_Delta.execute();
-    this->result = derivate_pointXi_p_Delta.result - derivate_pointXi_m_Delta.result;
+    this->result = (derivate_pointXi_p_Delta.result - derivate_pointXi_m_Delta.result) / (2 * this->deltaX);
 }
 
 void SecondDerivateCentralApproach::accept(Visitor& visitor) const

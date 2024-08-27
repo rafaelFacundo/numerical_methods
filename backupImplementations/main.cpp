@@ -1231,9 +1231,14 @@ Matrice fo(Matrice x)
     return result;
 }
 
+double sin2x(double x) {
+    return pow(sin(x), 2);
+} 
+
+
 int main()
 {
-    AdamsBashforthMethods teste = AdamsBashforthMethods();
+    Derivate teste = Derivate();
     /* vector<vector<double>> input = {
         {5, 2, 1},
         {2, 3, 1},
@@ -1271,7 +1276,7 @@ int main()
     cout << "MATRI P ============\n";
     t.P.printMatrice();
     cout << "===================\n"; */
-    Matrice So = Matrice(2,1);
+    /* Matrice So = Matrice(2,1);
     So.setValue(3,  0,0);
     So.setValue(150,1,0);
 
@@ -1283,7 +1288,10 @@ int main()
         cout << "============\n";
         vec.printMatrice();
         cout << "============\n";
-    }
+    } */
 
+   double resul = Derivate::Central_second_derivate_e1(sin2x,2.0,0.000001);
+
+   cout << "RESUL " << resul << '\n';
     return 0;
 }

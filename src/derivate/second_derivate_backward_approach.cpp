@@ -7,7 +7,7 @@ SecondDerivateBackwardApproach::SecondDerivateBackwardApproach(double xi, double
 
 void SecondDerivateBackwardApproach::execute() 
 {
-    this->result = (1/pow(this->deltaX, 2)) * (this->functionToDerive(this->Xi) - 2*this->functionToDerive(this->Xi - this->deltaX) - this->functionToDerive(this->Xi - 2*this->deltaX));
+    this->result = (this->functionToDerive(this->Xi) - 2*this->functionToDerive(this->Xi - this->deltaX) + this->functionToDerive(this->Xi - 2*this->deltaX)) / pow(this->deltaX, 2);
 }
 
 void SecondDerivateBackwardApproach::accept(Visitor& visitor) const

@@ -5,7 +5,7 @@ FirstDerivateCentralApproach::FirstDerivateCentralApproach(double xi, double del
 
 void FirstDerivateCentralApproach::execute() 
 {
-    this->result = this->functionToDerive(this->Xi + this->deltaX) + this->functionToDerive(this->Xi - this->deltaX) / (2*this->deltaX);
+    this->result = (this->functionToDerive(this->Xi + this->deltaX) - this->functionToDerive(this->Xi - this->deltaX) )/ (2*this->deltaX);
 }
 
 void FirstDerivateCentralApproach::accept(Visitor& visitor) const

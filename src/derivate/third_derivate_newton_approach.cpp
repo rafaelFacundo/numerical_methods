@@ -8,7 +8,7 @@ ThirdDerivateNewtonApproach::ThirdDerivateNewtonApproach(double xi, double delta
 
 void ThirdDerivateNewtonApproach::execute() 
 {
-    this->result = (1/pow(this->deltaX, 3)) * (-2.5*this->functionToDerive(this->Xi) + 9*this->functionToDerive(this->Xi + this->deltaX) - 12*this->functionToDerive(this->Xi + 2*this->deltaX) + 7*this->functionToDerive(this->Xi + 3*this->deltaX) - 1.5*this->functionToDerive(this->Xi + 4*this->deltaX));
+    this->result = (-(5.0/2.0)*this->functionToDerive(this->Xi) + 9.0*this->functionToDerive(this->Xi + this->deltaX) - 12.0*this->functionToDerive(this->Xi + 2.0*this->deltaX) + 7.0*this->functionToDerive(this->Xi + 3.0*this->deltaX) - (3.0/2.0)*this->functionToDerive(this->Xi + 4.0*this->deltaX)) / pow(this->deltaX, 3);
 }
 
 void ThirdDerivateNewtonApproach::accept(Visitor& visitor) const

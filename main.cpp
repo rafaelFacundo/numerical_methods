@@ -2,26 +2,66 @@
 #include <stdlib.h>
 #include <vector>
 #include <math.h>
+#include <cmath>
 #include <limits>
 #include <utility>
 #include <memory>
 #include "include/context_class/context.hpp"
 #include "include/derivate/first_derivate_forward_approach.hpp"
+#include "include/derivate/first_derivate_backward_approach.hpp"
+#include "include/derivate/first_derivate_central_approach.hpp"
+#include "include/derivate/second_derivate_forward_approach.hpp"
+#include "include/derivate/second_derivate_backward_approach.hpp"
+#include "include/derivate/second_derivate_central_approach.hpp"
+#include "include/derivate/third_derivate_newton_approach.hpp"
 #include "include/integral/first_degree_integral_newtoncotes.hpp"
 #include "include/visitor/visitor.hpp"
 using namespace std;
 
-double functionTeste(double x) {
-    return 2.0 * x + 4.0;
+double sin2x(double x) {
+    return pow(sin(x), 2);
 } 
 
 int main()
 {
+
+    vector<unique_ptr<NumericalMethod>> testes = {
+       /*   make_unique<FirstDerivateForwardApproach>(2.0,0.0001, sin2x),
+       make_unique<FirstDerivateBackwardApproach>(2.0,0.0001, sin2x),
+        make_unique<FirstDerivateCentralApproach>(2.0,0.0001, sin2x),
+        make_unique<SecondDerivateCentralApproach>(2.0,0.0001, sin2x),
+        make_unique<SecondDerivateBackwardApproach>(2.0,0.0001, sin2x),
+        make_unique<SecondDerivateForwardApproach>(2.0,0.0001, sin2x),
+        make_unique<ThirdDerivateNewtonApproach>(2.0,0.0001, sin2x), */
+    };
+    testes.push_back(make_unique<FirstDerivateForwardApproach>(2.0,0.000001, sin2x));
+    testes.push_back(make_unique<FirstDerivateBackwardApproach>(2.0,0.000001, sin2x));
+    testes.push_back(make_unique<FirstDerivateCentralApproach>(2.0,0.000001, sin2x));
+
+    testes.push_back(make_unique<SecondDerivateCentralApproach>(2.0,0.000001, sin2x));
+    testes.push_back(make_unique<SecondDerivateBackwardApproach>(2.0,0.000001, sin2x));
+    testes.push_back(make_unique<SecondDerivateForwardApproach>(2.0,0.000001, sin2x));
+
+    testes.push_back(make_unique<ThirdDerivateNewtonApproach>(2.0,0.0000000001, sin2x));
+
+
     Context teste = Context();
     Visitor visi = Visitor();
-    visi.teste();
-    teste.set_strategy(make_unique<FirstDegreeIntegralNewtonCotes>(0, 5, functionTeste, 7));
+    int i = 0;
+    for (auto& method : testes) {
+        cout << "TESTE " << i << '\n';
+        teste.set_strategy(move(method));
+        teste.callExecute();
+        /* if (teste.nmInstance_) { 
+            teste.nmInstance_->accept(visi);
+        } */
+        teste.nmInstance_.get()->accept(visi);
+        cout << "=======================\n";
+        i += 1;
+    }
+
+    /* teste.set_strategy(make_unique<FirstDerivateForwardApproach>());
     teste.callExecute();
-    teste.nmInstance_.get()->accept(visi);
+    teste.nmInstance_.get()->accept(visi); */
     return 0;
 }
