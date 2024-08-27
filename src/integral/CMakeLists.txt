@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
-project(Integrals VERSION 3.10)
+project(Integrals VERSION 1.0)
 
 include_directories(include)
 
 add_library(${PROJECT_NAME}
     ./integral.cpp
     ./integral_gauss.cpp
+    ./integral_special.cpp
     ./first_degree_integral_newtoncotes.cpp
     ./first_degree_integral_open_newtoncotes.cpp
     ./second_degree_integral_open_milnerule.cpp
