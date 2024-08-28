@@ -1,5 +1,10 @@
 #include "integral/third_degree_integral_open_newtoncotes.hpp"
 #include "visitor/visitor.hpp"
+#include <iostream>
+#include <ostream>
+#include <stdlib.h>
+
+using namespace std;
 
 ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
 
@@ -30,8 +35,10 @@ double ThirdDegreeIntegralOpenNewtonCotes::calculateIntegralByError()
     {
         h = newDelta_x / 5;
         double xi = (this->Xi + partition * newDelta_x);
+      
         return (5 * h / 24) * (11 * this->functionToIntegrate(xi + h) + this->functionToIntegrate(xi + 2 * h) + this->functionToIntegrate(xi + 3 * h) + 11 * this->functionToIntegrate(xi + 4 * h));
     };
+
     return this->calculate_integral_by_error(NewtonCotes_third_degree_open_formula, tolerance, this->deltaX, newDelta_x);
 };
 

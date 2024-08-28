@@ -1,5 +1,8 @@
 #include "integral/integral_special_simple_exponential_newton_cotes.hpp"
 #include "integral/third_degree_integral_open_newtoncotes.hpp"
+#include <iostream>
+#include <ostream>
+#include <stdlib.h>
 #include <math.h>
 using namespace std;
 
@@ -22,7 +25,11 @@ void IntegralSimpleExponentialNewtonCotes::execute()
     {
         return this->functionToIntegrate(this->Xs(x)) * this->DXs(x);
     };
-    ThirdDegreeIntegralOpenNewtonCotes integra = ThirdDegreeIntegralOpenNewtonCotes(-10, 10, t, this->tolerance);
+    cout << t(-5) << " ASDA\n";
+    ThirdDegreeIntegralOpenNewtonCotes integra = ThirdDegreeIntegralOpenNewtonCotes(-5, 10, t, this->tolerance);
+    cout << "ASLDKJALSKDJALSKDJ\n";
     integra.execute();
+    cout << "AAAAAAAAAAAAAAAAAAA  " << integra.result << '\n';
+
     this->result = integra.result;
 };

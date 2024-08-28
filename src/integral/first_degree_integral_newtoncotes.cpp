@@ -1,5 +1,5 @@
 #include "integral/first_degree_integral_newtoncotes.hpp"
-#include "/home/rafael/Documents/numerical_methods/include/visitor/visitor.hpp"
+#include "visitor/visitor.hpp"
 
 FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
 

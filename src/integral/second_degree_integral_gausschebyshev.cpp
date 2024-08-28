@@ -1,7 +1,10 @@
 #include "integral/second_degree_integral_gausschebyshev.hpp"
 #include "visitor/visitor.hpp"
+#include <math.h>
+using namespace std;
 
-SecondDegreeIntegralGuassChebyShev::SecondDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-0.707106781, 0.707106781}, vector<double>{1.570796327, 1.570796327}) {};
+SecondDegreeIntegralGuassChebyShev::SecondDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function) 
+: IntegralGauss(xi, xf, function, vector<double>{-(1/sqrt(2)), (1/sqrt(2))}, vector<double>{(M_PIf/2), (M_PIf/2)}) {};
 
 /**
  * This method is the accept method for the visitor pattern
@@ -21,7 +24,7 @@ double SecondDegreeIntegralGuassChebyShev::getXk(int rootIndex)
 };
 
 /**
- * Used by the context class to call the execution of some numerical method
+ * Used by the context class to c\all the execution of some numerical method
  * This method does not receive any parameter
  *
  * @return void - This method does not return any value, just sets the result on the result attribute
