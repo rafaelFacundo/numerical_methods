@@ -3,11 +3,13 @@
 
 JacobiMethod::JacobiMethod(Matrix a, double tolerance) : A{a}, tolerance{tolerance} {};
 
-void JacobiMethod::accept(Visitor& visitor) const {
+void JacobiMethod::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
-Matrix JacobiMethod::JacobiMatrixBasedOnElement_ij_OfOldMatrix(Matrix A, int i, int j){
+Matrix JacobiMethod::JacobiMatrixBasedOnElement_ij_OfOldMatrix(Matrix A, int i, int j)
+{
     double teta = 0;
     double tolerance = pow(10, -6);
     Matrix Jij = Matrix(A.numberOfRows, A.numberOfColumns, true);
@@ -32,7 +34,8 @@ Matrix JacobiMethod::JacobiMatrixBasedOnElement_ij_OfOldMatrix(Matrix A, int i, 
     return Jij;
 };
 
-JacobiScanResult JacobiMethod::jacobiScan(Matrix A){
+JacobiScanResult JacobiMethod::jacobiScan(Matrix A)
+{
     Matrix J = Matrix(A.numberOfRows, A.numberOfColumns, true);
     Matrix A_old = A;
     Matrix A_new = Matrix();
@@ -43,7 +46,7 @@ JacobiScanResult JacobiMethod::jacobiScan(Matrix A){
         {
             Jij = JacobiMatrixBasedOnElement_ij_OfOldMatrix(A_old, i, j);
             A_new = (Jij).transpose() * A_old * Jij;
-            
+
             A_old = A_new;
             J = J * Jij;
         }
@@ -51,7 +54,8 @@ JacobiScanResult JacobiMethod::jacobiScan(Matrix A){
     return JacobiScanResult(A_new, J);
 };
 
-double JacobiMethod::sumofsquaresoftermsbelowthediagonal(Matrix A){
+double JacobiMethod::sumofsquaresoftermsbelowthediagonal(Matrix A)
+{
     double sum = 0;
     for (int j = 0; j < A.numberOfColumns; ++j)
     {
@@ -63,7 +67,8 @@ double JacobiMethod::sumofsquaresoftermsbelowthediagonal(Matrix A){
     return sum;
 };
 
-void JacobiMethod::execute(){
+void JacobiMethod::execute()
+{
     Matrix P = Matrix(A.numberOfRows, A.numberOfColumns, true);
     double val = 100;
     vector<double> lamb = vector<double>(A.numberOfColumns);
@@ -78,9 +83,11 @@ void JacobiMethod::execute(){
         val = sumofsquaresoftermsbelowthediagonal(A_new_Jij.A);
     }
     this->result = JacobiMethodResult(A_new_Jij.A.getMainDiagonal(), P);
+    this->printResult();
 };
 
-void JacobiMethod::printResult() {
+void JacobiMethod::printResult()
+{
     cout << "RESULT = \n";
     cout << "P HAT MATRIX = \n";
     this->result.P.printMatrix();

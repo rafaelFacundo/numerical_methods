@@ -3,8 +3,8 @@
 #include <math.h>
 using namespace std;
 
-SecondDegreeIntegralGuassChebyShev::SecondDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function) 
-: IntegralGauss(xi, xf, function, vector<double>{-(1/sqrt(2)), (1/sqrt(2))}, vector<double>{(M_PIf/2), (M_PIf/2)}) {};
+SecondDegreeIntegralGuassChebyShev::SecondDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function)
+    : IntegralGauss(xi, xf, function, vector<double>{-(1 / sqrt(2)), (1 / sqrt(2))}, vector<double>{(M_PI / 2), (M_PI / 2)}) {};
 
 /**
  * This method is the accept method for the visitor pattern
