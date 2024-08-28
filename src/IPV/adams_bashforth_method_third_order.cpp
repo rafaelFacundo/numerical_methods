@@ -2,14 +2,15 @@
 #include "IPV/range_kutta_method_third_order.hpp"
 #include "visitor/visitor.hpp"
 
-AdamsBashForthThirdOrder::AdamsBashForthThirdOrder(double so, double deltat, functionWithOneArgument function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+AdamsBashForthThirdOrder::AdamsBashForthThirdOrder(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
 
-
-void AdamsBashForthThirdOrder::accept(Visitor& visitor) const {
+void AdamsBashForthThirdOrder::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
-void AdamsBashForthThirdOrder::execute() {
+void AdamsBashForthThirdOrder::execute()
+{
     RangeKuttaThirdOrderMethod range = RangeKuttaThirdOrderMethod(this->So, this->deltaT, this->functionOfState, 2);
     range.execute();
     vector<double> states = range.result;

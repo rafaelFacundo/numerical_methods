@@ -2,14 +2,15 @@
 #include "IPV/range_kutta_method_second_order.hpp"
 #include "visitor/visitor.hpp"
 
-AdamsBashForthSecondOrder::AdamsBashForthSecondOrder(double so, double deltat, functionWithOneArgument function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+AdamsBashForthSecondOrder::AdamsBashForthSecondOrder(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
 
-
-void AdamsBashForthSecondOrder::accept(Visitor& visitor) const {
+void AdamsBashForthSecondOrder::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
-void AdamsBashForthSecondOrder::execute() {
+void AdamsBashForthSecondOrder::execute()
+{
     vector<double> states = {So};
     double Si, Si_bar = 0;
     RangeKuttaSecondOrderMethod range = RangeKuttaSecondOrderMethod(this->So, this->deltaT, this->functionOfState, 1);

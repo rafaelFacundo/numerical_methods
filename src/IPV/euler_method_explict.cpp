@@ -1,15 +1,15 @@
 #include "IPV/euler_method_explict.hpp"
 #include "visitor/visitor.hpp"
 
-EulerMethodExplict::EulerMethodExplict(double so, double deltat, functionWithOneArgument function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+EulerMethodExplict::EulerMethodExplict(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
 
-
-void EulerMethodExplict::accept(Visitor& visitor) const {
+void EulerMethodExplict::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
-
-void EulerMethodExplict::execute() {
+void EulerMethodExplict::execute()
+{
     vector<double> states = {this->So};
     double Si = 0;
     for (int i = 1; i <= numbeOfStates; ++i)

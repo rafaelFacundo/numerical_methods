@@ -16,6 +16,7 @@
 #include "include/derivate/third_derivate_newton_approach.hpp"
 
 #include "include/visitor/visitor.hpp"
+#include "include/matrix/matrix.hpp"
 
 #include "include/integral/integral.hpp"
 #include "include/integral/integral_gauss.hpp"
@@ -45,7 +46,13 @@
 #include "include/eigenvalues_eingenvectors/power_methods/power_method.hpp"
 #include "include/eigenvalues_eingenvectors/power_methods/shifted_power_method.hpp"
 
-#include "include/matrix/matrix.hpp"
+#include "include/IPV/adams_bashforth_method_second_order.hpp"
+#include "include/IPV/adams_bashforth_method_third_order.hpp"
+#include "include/IPV/euler_method_explict.hpp"
+#include "include/IPV/euler_method_implict.hpp"
+#include "include/IPV/range_kutta_method_second_order.hpp"
+#include "include/IPV/range_kutta_method_third_order.hpp"
+#include "include/IPV/range_kutta_method_fourth_order.hpp"
 
 using namespace std;
 
@@ -77,6 +84,11 @@ double gaussChebyshev(double x)
 double doubleExponential(double x)
 {
     return 1 / sqrt(x);
+}
+
+double yt(double x)
+{
+    return 2.0 / 3.0 * x;
 }
 
 int main()
@@ -157,6 +169,9 @@ int main()
         testes.push_back(make_unique<QRMethod>(Matrix1, 0.0001));
         testes.push_back(make_unique<QRMethod>(Matrix2, 0.0001));
         testes.push_back(make_unique<QRMethod>(Matrix3, 0.0001)); */
+
+    // testes.push_back(make_unique<EulerMethodExplict>(2.0, 0.5, yt, 3));
+    testes.push_back(make_unique<EulerMethodImplict>(2.0, 0.5, yt, 3));
 
     Context teste = Context();
     Visitor visi = Visitor();

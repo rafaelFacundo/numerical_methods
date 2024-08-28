@@ -4,15 +4,14 @@
 #include <ostream>
 using namespace std;
 
-FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double deltax, functionWithOneArgument function) : Derivate(xi, deltax, function) {}
+FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {}
 
-
-void FirstDerivateForwardApproach::execute() 
+void FirstDerivateForwardApproach::execute()
 {
     this->result = (this->functionToDerive(this->Xi + this->deltaX) - this->functionToDerive(this->Xi)) / this->deltaX;
 }
 
-void FirstDerivateForwardApproach::accept(Visitor& visitor) const
+void FirstDerivateForwardApproach::accept(Visitor &visitor) const
 {
     visitor.visit(*this);
 }

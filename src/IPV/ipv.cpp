@@ -1,8 +1,8 @@
 #include "IPV/ipv.hpp"
 
-IPV::IPV(double so, double deltat, functionWithOneArgument function, int numbeofstates) : So{so}, deltaT{deltat}, functionOfState{function}, numbeOfStates{numbeofstates} {};
+IPV::IPV(double so, double deltat, std::function<double(double)> function, int numbeofstates) : So{so}, deltaT{deltat}, functionOfState{function}, numbeOfStates{numbeofstates} {};
 
-void IPV::updateValues(double so, double deltat, functionWithOneArgument function, int numbeofstates)
+void IPV::updateValues(double so, double deltat, std::function<double(double)> function, int numbeofstates)
 {
     this->So = so;
     this->deltaT = deltat;

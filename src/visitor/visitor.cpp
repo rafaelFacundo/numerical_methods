@@ -6,6 +6,7 @@
 #include "eigenvalues_eingenvectors/power_methods/power_methods.hpp"
 #include "eigenvalues_eingenvectors/house_holder/house_holder.hpp"
 #include "eigenvalues_eingenvectors/jacobi/jacobi_method.hpp"
+#include "IPV/ipv.hpp"
 
 void Visitor::visit(const Derivate &derivate)
 {
@@ -69,6 +70,15 @@ void Visitor::visit(const QRMethod &qr)
 void Visitor::visit(const IPV &ipv)
 {
   cout << "THE METHOD WAS CALCULATED FOR: \n";
+  cout << "So      = " << ipv.So << '\n';
+  cout << "DELTA T = " << ipv.deltaT << '\n';
+  cout << "NUM OF STATES = " << ipv.numbeOfStates << '\n';
+  cout << "RESULT VECTOR = [\n";
+  for (int i = 0; i < ipv.result.size(); ++i)
+  {
+    cout << "S{" << i << "} = " << ipv.result[i] << '\n';
+  }
+  cout << "]\n";
 };
 
 void Visitor::visit(const IntegralGauss &integral)

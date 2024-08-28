@@ -3,14 +3,14 @@
 #include <math.h>
 using namespace std;
 
-SecondDerivateBackwardApproach::SecondDerivateBackwardApproach(double xi, double deltax, functionWithOneArgument function) : Derivate(xi,deltax, function) {};
+SecondDerivateBackwardApproach::SecondDerivateBackwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {};
 
-void SecondDerivateBackwardApproach::execute() 
+void SecondDerivateBackwardApproach::execute()
 {
-    this->result = (this->functionToDerive(this->Xi) - 2*this->functionToDerive(this->Xi - this->deltaX) + this->functionToDerive(this->Xi - 2*this->deltaX)) / pow(this->deltaX, 2);
+    this->result = (this->functionToDerive(this->Xi) - 2 * this->functionToDerive(this->Xi - this->deltaX) + this->functionToDerive(this->Xi - 2 * this->deltaX)) / pow(this->deltaX, 2);
 }
 
-void SecondDerivateBackwardApproach::accept(Visitor& visitor) const
+void SecondDerivateBackwardApproach::accept(Visitor &visitor) const
 {
     visitor.visit(*this);
 }

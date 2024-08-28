@@ -995,10 +995,13 @@ double newtonRaphsonMethod(double Xinitial, double tolerance, Functor function)
 {
     double Xn = Xinitial;
     double Xnp1 = Xn - function(Xn) / Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+    cout << abs(function(Xnp1)) << " ASJDHAKSJDHAKSJDHAKSJHDK\n";
     while (abs(function(Xnp1)) > tolerance)
     {
+        cout << "AAAAAAAAAAAAAAAAAAAAAAAAAA\n";
         Xn = Xnp1;
         Xnp1 = Xn - function(Xn) / Derivate::Forward_first_derivate_e1(function, Xn, 0.0001);
+        cout << "xNP1 " << Xnp1 << '\n';
     }
     return Xnp1;
 }
@@ -1024,7 +1027,7 @@ public:
         Matrice Si = Matrice();
         for (int i = 1; i <= numberOfStates; ++i)
         {
-            Si = states[i-1] + function(states[i-1]) * deltaT;
+            Si = states[i - 1] + function(states[i - 1]) * deltaT;
             states.push_back(Si);
         }
         return states;
@@ -1039,6 +1042,7 @@ public:
         {
             return states[iteration - 1] + deltaT * function(x) - x;
         };
+        cout << "FUNC 1 " << functionToFindRoot(1) << '\n';
         while (iteration <= numberOfStates)
         {
             Si = newtonRaphsonMethod(1.0, 0.0001, functionToFindRoot);
@@ -1086,9 +1090,9 @@ public:
         Matrice Si_bar, Si_bar_half, Si = Matrice();
         for (int i = 1; i <= numberOfStates; ++i)
         {
-            Si_bar_half = EulerMethods::explicitEulerMethod(states[i-1], deltaT/2, function, 1).back();
-            Si_bar = EulerMethods::explicitEulerMethod(states[i-1], deltaT, function, 1).back();
-            Si = states[i-1] + (function(states[i - 1]) * (1.0 / 6.0) + function(Si_bar_half) * (2.0 / 3.0) + function(Si_bar) * (1.0 / 6.0)) * deltaT;
+            Si_bar_half = EulerMethods::explicitEulerMethod(states[i - 1], deltaT / 2, function, 1).back();
+            Si_bar = EulerMethods::explicitEulerMethod(states[i - 1], deltaT, function, 1).back();
+            Si = states[i - 1] + (function(states[i - 1]) * (1.0 / 6.0) + function(Si_bar_half) * (2.0 / 3.0) + function(Si_bar) * (1.0 / 6.0)) * deltaT;
             states.push_back(Si);
         }
         return states;
@@ -1101,9 +1105,9 @@ public:
         Matrice F1, F2, F3 = Matrice();
         for (int i = 1; i <= numberOfStates; ++i)
         {
-            Si_bar_half = states[i-1] + function(states[i-1]) * (deltaT/2);
-            Si_bar = states[i-1] + (function(Si_bar_half)*2 - function(states[i-1])) * deltaT;
-            Si = states[i-1] + ( function(states[i-1]) * (1.0/6.0) + function(Si_bar_half) * (4.0/6.0) + function(Si_bar) * (1.0/6.0) ) * deltaT;
+            Si_bar_half = states[i - 1] + function(states[i - 1]) * (deltaT / 2);
+            Si_bar = states[i - 1] + (function(Si_bar_half) * 2 - function(states[i - 1])) * deltaT;
+            Si = states[i - 1] + (function(states[i - 1]) * (1.0 / 6.0) + function(Si_bar_half) * (4.0 / 6.0) + function(Si_bar) * (1.0 / 6.0)) * deltaT;
             states.push_back(Si);
         }
         return states;
@@ -1114,16 +1118,16 @@ public:
         vector<Matrice> states = {So};
         Matrice S2, S3, S4, Si = Matrice();
         Matrice F1, F2, F3, F4 = Matrice();
-        for(int i = 1; i <= numberOfStates; ++i)
+        for (int i = 1; i <= numberOfStates; ++i)
         {
-            S2 = states[i-1] + function(states[i-1]) * (deltaT/2);
-            S3 = states[i-1] + function(S2) * (deltaT/2);
-            S4 = states[i-1] + function(S3) * deltaT;
-            Si = states[i-1] + ( function(states[i-1]) + function(S2) * 2 + function(S3) * 2 + function(S4) ) * (deltaT/6.0);
+            S2 = states[i - 1] + function(states[i - 1]) * (deltaT / 2);
+            S3 = states[i - 1] + function(S2) * (deltaT / 2);
+            S4 = states[i - 1] + function(S3) * deltaT;
+            Si = states[i - 1] + (function(states[i - 1]) + function(S2) * 2 + function(S3) * 2 + function(S4)) * (deltaT / 6.0);
             states.push_back(Si);
         }
         return states;
-    } 
+    }
 
     static vector<Matrice> rangeKuttaThirdOrderMethod_alternative_findZero(Matrice So, double deltaT, Matrice (*function)(Matrice), int numberOfStates)
     {
@@ -1133,19 +1137,22 @@ public:
         bool stillNotreach = true;
         int i = 1;
         double maxHeight, timeMax, timeTotal, velocity = 0;
-        while (stillNotreach) {
-            Si_bar_half = states[i-1] + function(states[i-1]) * (deltaT/2);
-            Si_bar = states[i-1] + (function(Si_bar_half)*2 - function(states[i-1])) * deltaT;
-            Si = states[i-1] + ( function(states[i-1]) * (1.0/6.0) + function(Si_bar_half) * (4.0/6.0) + function(Si_bar) * (1.0/6.0) ) * deltaT;
+        while (stillNotreach)
+        {
+            Si_bar_half = states[i - 1] + function(states[i - 1]) * (deltaT / 2);
+            Si_bar = states[i - 1] + (function(Si_bar_half) * 2 - function(states[i - 1])) * deltaT;
+            Si = states[i - 1] + (function(states[i - 1]) * (1.0 / 6.0) + function(Si_bar_half) * (4.0 / 6.0) + function(Si_bar) * (1.0 / 6.0)) * deltaT;
             states.push_back(Si);
 
-            if (Si.getNumber(1,0) > maxHeight) {
-                maxHeight = Si.getNumber(1,0);
+            if (Si.getNumber(1, 0) > maxHeight)
+            {
+                maxHeight = Si.getNumber(1, 0);
                 timeMax = deltaT * i;
             }
-            if (Si.getNumber(1,0) < 1) {
+            if (Si.getNumber(1, 0) < 1)
+            {
                 stillNotreach = false;
-                velocity = Si.getNumber(0,0);
+                velocity = Si.getNumber(0, 0);
             }
             timeTotal = deltaT * i;
             i += 1;
@@ -1157,10 +1164,10 @@ public:
             Si = states[i-1] + ( function(states[i-1]) * (1.0/6.0) + function(Si_bar_half) * (4.0/6.0) + function(Si_bar) * (1.0/6.0) ) * deltaT;
             states.push_back(Si);
         } */
-       cout << "MAX HEI " << maxHeight << '\n';
-       cout << "MAX TIME " << timeMax << '\n';
-       cout << "TOTAL TIME " << timeTotal << '\n';
-       cout << "VELOCITY " << velocity << '\n';
+        cout << "MAX HEI " << maxHeight << '\n';
+        cout << "MAX TIME " << timeMax << '\n';
+        cout << "TOTAL TIME " << timeTotal << '\n';
+        cout << "VELOCITY " << velocity << '\n';
         return states;
     }
 };
@@ -1201,10 +1208,10 @@ public:
     {
         vector<Matrice> states = RangeKuttaMethods::rangeKuttaFourthOrderMethod_alternative(So, deltaT, function, 3);
         Matrice Si, Si_bar = Matrice();
-        for (int i = 4; i <= numberOfStates; ++i) 
+        for (int i = 4; i <= numberOfStates; ++i)
         {
-            Si_bar = states[i-1] + (function(states[i-4]) * (-9) + function(states[i-3]) * 37 - function(states[i-2]) * 59 + function(states[i-1]) * 55) * (deltaT/24);
-            Si = states[i-1] + (function(states[i-3]) - function(states[i-2]) * 5 + function(states[i-1]) * 19 + function(Si_bar) * 9) * (deltaT/24);
+            Si_bar = states[i - 1] + (function(states[i - 4]) * (-9) + function(states[i - 3]) * 37 - function(states[i - 2]) * 59 + function(states[i - 1]) * 55) * (deltaT / 24);
+            Si = states[i - 1] + (function(states[i - 3]) - function(states[i - 2]) * 5 + function(states[i - 1]) * 19 + function(Si_bar) * 9) * (deltaT / 24);
             states.push_back(Si);
         }
         return states;
@@ -1223,22 +1230,22 @@ double f(double x)
 
 Matrice fo(Matrice x)
 {
-    double v1 = -10 - (0.5/0.5) * x.getNumber(0,0);
-    double v2 = x.getNumber(0,0);
-    Matrice result = Matrice(2,1);
-    result.setValue(v1, 0,0);
-    result.setValue(v2, 1,0);
+    double v1 = -10 - (0.5 / 0.5) * x.getNumber(0, 0);
+    double v2 = x.getNumber(0, 0);
+    Matrice result = Matrice(2, 1);
+    result.setValue(v1, 0, 0);
+    result.setValue(v2, 1, 0);
     return result;
 }
 
-double sin2x(double x) {
+double sin2x(double x)
+{
     return pow(sin(x), 2);
-} 
-
+}
 
 int main()
 {
-    Derivate teste = Derivate();
+    EulerMethods teste = EulerMethods();
     /* vector<vector<double>> input = {
         {5, 2, 1},
         {2, 3, 1},
@@ -1248,7 +1255,7 @@ int main()
         {-14, 1, -2},
         {1, -1, 1},
         {-2, 1, 11}};
-    
+
     vector<vector<double>> input3 = {
         {40,8,4,2,1},
         {8,30,12,6,2},
@@ -1290,8 +1297,14 @@ int main()
         cout << "============\n";
     } */
 
-   double resul = Derivate::Central_second_derivate_e1(sin2x,2.0,0.000001);
+    vector<double> resul = EulerMethods::implicitEulerMethod(2, 0.5, yt, 2);
 
-   cout << "RESUL " << resul << '\n';
+    cout << "RESULT VECTOR = [\n";
+    for (int i = 0; i < resul.size(); ++i)
+    {
+        cout << "S{" << i << "} = " << resul[i] << '\n';
+    }
+    cout << "]\n";
+
     return 0;
 }

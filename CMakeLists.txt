@@ -14,4 +14,4 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/src/IPV)
 
 add_executable(${PROJECT_NAME} ./main.cpp)
 
-target_link_libraries(${PROJECT_NAME} Derivates Integrals EigenvaluesEigenvectors Context Visitor  Matrix Ipv)
+target_link_libraries(${PROJECT_NAME} Ipv  Derivates Integrals  EigenvaluesEigenvectors Context Visitor  Matrix )
