@@ -733,7 +733,6 @@ SVDDecompositionResult svdDecomposition(Matrice A)
     }
     if (temp == 1)
     {
-        cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAa\n";
         V = qrResult.P.transpose();
         U = qrMethod(A_At_Sl, 0.00001).P;
     }

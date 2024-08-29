@@ -1,14 +1,18 @@
 #include "eigenvalues_eingenvectors/power_methods/power_method.hpp"
 #include "visitor/visitor.hpp"
 
-PowerMethod::PowerMethod(Matrix a, Matrix vectorvo, double tolerance) : PowerMethods(a, vectorvo, tolerance) {};
+PowerMethod::PowerMethod(Matrix a, Matrix vectorvo, double tolerance) : PowerMethods(a, vectorvo, tolerance)
+{
+    this->methodName = "POWER METHOD";
+};
 
-void PowerMethod::accept(Visitor& visitor) const {
+void PowerMethod::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
-        
 
-void PowerMethod::execute() {
+void PowerMethod::execute()
+{
     double newEigenValue = 0;
     double oldEigenValue = 0;
     Matrix Vk_new = this->VectorVo;

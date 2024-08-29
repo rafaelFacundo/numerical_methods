@@ -1,15 +1,18 @@
 #include "eigenvalues_eingenvectors/power_methods/inverse_power_method_LU.hpp"
 #include "visitor/visitor.hpp"
 
+InversePowerMethodWithLU::InversePowerMethodWithLU(Matrix a, Matrix vectorvo, double tolerance) : PowerMethods(a, vectorvo, tolerance)
+{
+    this->methodName = "INVERSE POWER METHOD WITH LU";
+};
 
-InversePowerMethodWithLU::InversePowerMethodWithLU(Matrix a, Matrix vectorvo, double tolerance) : PowerMethods(a, vectorvo, tolerance) {};
-
-void InversePowerMethodWithLU::accept(Visitor& visitor) const {
+void InversePowerMethodWithLU::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
-        
 
-void InversePowerMethodWithLU::execute() {
+void InversePowerMethodWithLU::execute()
+{
     pair<Matrix, Matrix> A_LUdecomposition = A.LU_decomposition();
     double EigenValue_new = 0;
     double EigenValue_old = 0;
@@ -30,6 +33,6 @@ void InversePowerMethodWithLU::execute() {
             stillNotReachTolerance = false;
         }
     }
-    this->result =  PowerMethodResult(1 / EigenValue_new, Vk_old);
+    this->result = PowerMethodResult(1 / EigenValue_new, Vk_old);
     this->printResult();
 };

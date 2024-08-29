@@ -1,9 +1,15 @@
 #include "integral/third_degree_integral_simpson_threeEighths.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
+ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions)
+{
+    this->methodName = "THIRD DEGREE INTEGRAL SIMPSON THREE EIGHTHS";
+};
 
-ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
+ThirdDegreeIntegralSimpsonThreeEighths::ThirdDegreeIntegralSimpsonThreeEighths(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance)
+{
+    this->methodName = "THIRD DEGREE INTEGRAL SIMPSON THREE EIGHTHS";
+};
 
 void ThirdDegreeIntegralSimpsonThreeEighths::accept(Visitor &visitor) const
 {

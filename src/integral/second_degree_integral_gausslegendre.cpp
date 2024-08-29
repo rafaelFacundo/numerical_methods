@@ -1,7 +1,10 @@
 #include "integral/second_degree_integral_gausslegendre.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralGuassLegendre::SecondDegreeIntegralGuassLegendre(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-0.577350269, 0.577350269}, vector<double>{1, 1}) {};
+SecondDegreeIntegralGuassLegendre::SecondDegreeIntegralGuassLegendre(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-0.577350269, 0.577350269}, vector<double>{1, 1})
+{
+    this->methodName = "SECOND DEGREE INTEGRAL GAUSS LEGENDRE";
+};
 
 /**
  * This method is the accept method for the visitor pattern

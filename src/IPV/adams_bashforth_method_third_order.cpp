@@ -2,7 +2,10 @@
 #include "IPV/range_kutta_method_third_order.hpp"
 #include "visitor/visitor.hpp"
 
-AdamsBashForthThirdOrder::AdamsBashForthThirdOrder(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+AdamsBashForthThirdOrder::AdamsBashForthThirdOrder(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates)
+{
+    this->methodName = "ADAMS BASHFORTH THIRD ORDER";
+};
 
 void AdamsBashForthThirdOrder::accept(Visitor &visitor) const
 {

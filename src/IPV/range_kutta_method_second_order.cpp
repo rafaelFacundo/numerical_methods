@@ -2,7 +2,10 @@
 #include "IPV/euler_method_explict.hpp"
 #include "visitor/visitor.hpp"
 
-RangeKuttaSecondOrderMethod::RangeKuttaSecondOrderMethod(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+RangeKuttaSecondOrderMethod::RangeKuttaSecondOrderMethod(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates)
+{
+    this->methodName = "RANGE KUTTA SECOND ORDER";
+};
 
 void RangeKuttaSecondOrderMethod::accept(Visitor &visitor) const
 {

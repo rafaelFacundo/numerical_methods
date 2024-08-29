@@ -4,7 +4,10 @@
 using namespace std;
 
 SecondDegreeIntegralGuassChebyShev::SecondDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function)
-    : IntegralGauss(xi, xf, function, vector<double>{-(1 / sqrt(2)), (1 / sqrt(2))}, vector<double>{(M_PI / 2), (M_PI / 2)}) {};
+    : IntegralGauss(xi, xf, function, vector<double>{-(1 / sqrt(2)), (1 / sqrt(2))}, vector<double>{(M_PI / 2), (M_PI / 2)})
+{
+    this->methodName = "SECOND DEGREE INTEGRAL GAUSS CHEBYSHEV";
+};
 
 /**
  * This method is the accept method for the visitor pattern

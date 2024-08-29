@@ -1,7 +1,10 @@
 #include "integral/third_degree_integral_gausslaguerre.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralGuassLaguerre::ThirdDegreeIntegralGuassLaguerre(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{0.4157745568, 2.2942803603, 6.2899450829}, vector<double>{0.7110930099, 0.7110930099, 0.0103892565}) {};
+ThirdDegreeIntegralGuassLaguerre::ThirdDegreeIntegralGuassLaguerre(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{0.4157745568, 2.2942803603, 6.2899450829}, vector<double>{0.7110930099, 0.7110930099, 0.0103892565})
+{
+    this->methodName = "THIRD DEGREE INTEGRAL GAUSS LAGUERRE";
+};
 
 /**
  * This method is the accept method for the visitor pattern

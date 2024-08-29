@@ -1,7 +1,10 @@
 #include "integral/first_degree_integral_newtoncotes.hpp"
 #include "visitor/visitor.hpp"
 
-FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
+FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions)
+{
+    this->methodName = "FIRST DEGREE INTEGRAL NEWTON COTES";
+};
 
 FirstDegreeIntegralNewtonCotes::FirstDegreeIntegralNewtonCotes(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 

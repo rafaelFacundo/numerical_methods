@@ -2,7 +2,10 @@
 #include "IPV/range_kutta_method_second_order.hpp"
 #include "visitor/visitor.hpp"
 
-AdamsBashForthSecondOrder::AdamsBashForthSecondOrder(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+AdamsBashForthSecondOrder::AdamsBashForthSecondOrder(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates)
+{
+    this->methodName = "ADAMS BASHFORTH SECOND ORDER";
+};
 
 void AdamsBashForthSecondOrder::accept(Visitor &visitor) const
 {

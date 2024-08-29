@@ -3,7 +3,10 @@
 #include <math.h>
 using namespace std;
 
-SecondDerivateBackwardApproach::SecondDerivateBackwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {};
+SecondDerivateBackwardApproach::SecondDerivateBackwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function)
+{
+    this->methodName = "SECOND DERIVATE BACKWARD APPROACH";
+};
 
 void SecondDerivateBackwardApproach::execute()
 {

@@ -4,7 +4,10 @@
 #include <ostream>
 using namespace std;
 
-FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {}
+FirstDerivateForwardApproach::FirstDerivateForwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function)
+{
+    this->methodName = "FIRST DERIVATE FORWARD APPROACH";
+}
 
 void FirstDerivateForwardApproach::execute()
 {

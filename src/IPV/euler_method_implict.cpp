@@ -2,7 +2,10 @@
 #include "derivate/first_derivate_forward_approach.hpp"
 #include "visitor/visitor.hpp"
 
-EulerMethodImplict::EulerMethodImplict(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+EulerMethodImplict::EulerMethodImplict(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates)
+{
+    this->methodName = "EULER IMPLICIT";
+};
 
 void EulerMethodImplict::accept(Visitor &visitor) const
 {

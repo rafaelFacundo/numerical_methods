@@ -6,9 +6,15 @@
 
 using namespace std;
 
-ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
+ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions)
+{
+    this->methodName = "THIRD DEGREE INTEGRAL OPEN NEWTON COTES";
+};
 
-ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
+ThirdDegreeIntegralOpenNewtonCotes::ThirdDegreeIntegralOpenNewtonCotes(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance)
+{
+    this->methodName = "THIRD DEGREE INTEGRAL OPEN NEWTON COTES";
+};
 
 void ThirdDegreeIntegralOpenNewtonCotes::accept(Visitor &visitor) const
 {
@@ -35,7 +41,7 @@ double ThirdDegreeIntegralOpenNewtonCotes::calculateIntegralByError()
     {
         h = newDelta_x / 5;
         double xi = (this->Xi + partition * newDelta_x);
-      
+
         return (5 * h / 24) * (11 * this->functionToIntegrate(xi + h) + this->functionToIntegrate(xi + 2 * h) + this->functionToIntegrate(xi + 3 * h) + 11 * this->functionToIntegrate(xi + 4 * h));
     };
 

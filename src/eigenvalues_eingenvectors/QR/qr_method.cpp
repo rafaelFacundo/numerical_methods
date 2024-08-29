@@ -1,13 +1,18 @@
 #include "eigenvalues_eingenvectors/QR/qr_method_.hpp"
 #include "visitor/visitor.hpp"
 
-QRMethod::QRMethod(Matrix a, double tolerance) : A{a}, tolerance{tolerance} {};
+QRMethod::QRMethod(Matrix a, double tolerance) : A{a}, tolerance{tolerance}
+{
+    this->methodName = "QR";
+};
 
-void QRMethod::accept(Visitor& visitor) const {
+void QRMethod::accept(Visitor &visitor) const
+{
     visitor.visit(*this);
 };
 
-double QRMethod::sumofsquaresoftermsbelowthediagonal(Matrix A){
+double QRMethod::sumofsquaresoftermsbelowthediagonal(Matrix A)
+{
     double sum = 0;
     for (int j = 0; j < A.numberOfColumns; ++j)
     {
@@ -48,12 +53,12 @@ Matrix QRMethod::JacobiMatrixBasedOnElement_ij_OfOldQRMatrix(Matrix A, int i, in
     Jij.setValue(cos(teta), j, j);
     Jij.setValue(sin(teta), i, j);
     Jij.setValue(-sin(teta), j, i);
-   
 
     return Jij;
 };
 
-QRdecompositionResult QRMethod::qrDecomposition(Matrix A) {
+QRdecompositionResult QRMethod::qrDecomposition(Matrix A)
+{
     Matrix QT = Matrix(A.numberOfRows, A.numberOfColumns, true);
     Matrix R_old = A;
     Matrix R_new = Matrix();
@@ -71,7 +76,8 @@ QRdecompositionResult QRMethod::qrDecomposition(Matrix A) {
     return QRdecompositionResult(QT.transpose(), R_new);
 };
 
-void QRMethod::execute() {
+void QRMethod::execute()
+{
     Matrix P = Matrix(A.numberOfRows, A.numberOfColumns, true);
     Matrix A_new = Matrix();
     double val = 100;
@@ -90,7 +96,9 @@ void QRMethod::execute() {
     this->printResult();
 };
 
-void QRMethod::printResult() {
+void QRMethod::printResult()
+{
+    cout << "METHOD " << this->methodName << '\n';
     cout << "RESULT = \n";
     cout << "A HAT MATRIX = \n";
     this->result.A.printMatrix();

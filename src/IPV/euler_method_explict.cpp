@@ -1,7 +1,10 @@
 #include "IPV/euler_method_explict.hpp"
 #include "visitor/visitor.hpp"
 
-EulerMethodExplict::EulerMethodExplict(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates) {};
+EulerMethodExplict::EulerMethodExplict(double so, double deltat, std::function<double(double)> function, int numbeofstates) : IPV(so, deltat, function, numbeofstates)
+{
+    this->methodName = "EULER EXPLICIT";
+};
 
 void EulerMethodExplict::accept(Visitor &visitor) const
 {

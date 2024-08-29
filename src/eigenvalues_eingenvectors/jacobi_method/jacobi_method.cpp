@@ -1,7 +1,10 @@
 #include "eigenvalues_eingenvectors/jacobi/jacobi_method.hpp"
 #include "visitor/visitor.hpp"
 
-JacobiMethod::JacobiMethod(Matrix a, double tolerance) : A{a}, tolerance{tolerance} {};
+JacobiMethod::JacobiMethod(Matrix a, double tolerance) : A{a}, tolerance{tolerance}
+{
+    this->methodName = "JACOBI";
+};
 
 void JacobiMethod::accept(Visitor &visitor) const
 {
@@ -88,6 +91,7 @@ void JacobiMethod::execute()
 
 void JacobiMethod::printResult()
 {
+    cout << "METHOD " << this->methodName << '\n';
     cout << "RESULT = \n";
     cout << "P HAT MATRIX = \n";
     this->result.P.printMatrix();

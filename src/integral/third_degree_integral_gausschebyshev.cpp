@@ -1,7 +1,10 @@
 #include "integral/third_degree_integral_gausschebyshev.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralGuassChebyShev::ThirdDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-0.866025404, 0, 0.866025404}, vector<double>{1.047197551, 1.047197551, 1.047197551}) {};
+ThirdDegreeIntegralGuassChebyShev::ThirdDegreeIntegralGuassChebyShev(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-0.866025404, 0, 0.866025404}, vector<double>{1.047197551, 1.047197551, 1.047197551})
+{
+    this->methodName = "THIRD DEGREE INTEGRAL GAUSS CHEBYSHEV";
+};
 
 /**
  * This method is the accept method for the visitor pattern

@@ -1,7 +1,10 @@
 #include "integral/third_degree_integral_gausshermite.hpp"
 #include "visitor/visitor.hpp"
 
-ThirdDegreeIntegralGuassHermite::ThirdDegreeIntegralGuassHermite(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-1.224744871, 0, 1.224744871}, vector<double>{0.295408975, 1.181635901, 0.295408975}) {};
+ThirdDegreeIntegralGuassHermite::ThirdDegreeIntegralGuassHermite(double xi, double xf, std::function<double(double)> function) : IntegralGauss(xi, xf, function, vector<double>{-1.224744871, 0, 1.224744871}, vector<double>{0.295408975, 1.181635901, 0.295408975})
+{
+    this->methodName = "THIRD DEGREE INTEGRAL GAUSS HERMITE";
+};
 
 /**
  * This method is the accept method for the visitor pattern

@@ -2,7 +2,10 @@
 #include "visitor/visitor.hpp"
 #include "derivate/first_derivate_central_approach.hpp"
 
-SecondDerivateCentralApproach::SecondDerivateCentralApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {};
+SecondDerivateCentralApproach::SecondDerivateCentralApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function)
+{
+    this->methodName = "SECOND DERIVATE CENTRAL APPROACH";
+};
 
 void SecondDerivateCentralApproach::execute()
 {

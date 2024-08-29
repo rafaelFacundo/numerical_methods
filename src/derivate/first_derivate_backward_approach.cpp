@@ -1,7 +1,10 @@
 #include "derivate/first_derivate_backward_approach.hpp"
 #include "visitor/visitor.hpp"
 
-FirstDerivateBackwardApproach::FirstDerivateBackwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {};
+FirstDerivateBackwardApproach::FirstDerivateBackwardApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function)
+{
+    this->methodName = "FIRST DERIVATE BACKWARD APPROACH";
+};
 
 void FirstDerivateBackwardApproach::execute()
 {

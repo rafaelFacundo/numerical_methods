@@ -1,9 +1,12 @@
 #include "eigenvalues_eingenvectors/house_holder/house_holder.hpp"
 #include "visitor/visitor.hpp"
 
-HouseHolderMethod::HouseHolderMethod(Matrix a) : A{a} {};
+HouseHolderMethod::HouseHolderMethod(Matrix a) : A{a}
+{
+    this->methodName = "HOUSE HOLDER";
+};
 
-void HouseHolderMethod::accept(Visitor& visitor) const 
+void HouseHolderMethod::accept(Visitor &visitor) const
 {
     visitor.visit(*this);
 };
@@ -23,8 +26,7 @@ Matrix HouseHolderMethod::houseHolderMatrixBasedOnColumnIfromPreviousMatrix(Matr
     return I - TwoTimesNtimesN;
 };
 
-
-void HouseHolderMethod::execute() 
+void HouseHolderMethod::execute()
 {
     Matrix H = Matrix(A.numberOfRows, A.numberOfColumns, true);
     Matrix Ai_one = A;
@@ -37,12 +39,14 @@ void HouseHolderMethod::execute()
         Ai_one = Ai;
         H = H * Hi;
     }
-    //Matrix A_hat = Ai;
+    // Matrix A_hat = Ai;
     this->result = HouseHolderMethodResult(Ai, H);
     this->printResult();
 };
 
-void HouseHolderMethod::printResult() {
+void HouseHolderMethod::printResult()
+{
+    cout << "METHOD " << this->methodName << '\n';
     cout << "RESULT = \n";
     cout << "A HAT MATRIX = \n";
     this->result.A_hat_matrix.printMatrix();

@@ -7,9 +7,11 @@
 #include <math.h>
 using namespace std;
 
-
 IntegralDoubleExponentialNewtonCotes::IntegralDoubleExponentialNewtonCotes(std::function<double(double)> function, double xi, double xf, double tolerance)
-    : IntegralSpecial(function, xi, xf), tolerance{tolerance} {};
+    : IntegralSpecial(function, xi, xf), tolerance{tolerance}
+{
+    this->methodName = "DOUBLE EXPONENTIAL INTEGRAL WITH NEWTON COTES";
+};
 
 double IntegralDoubleExponentialNewtonCotes::Xs(double s)
 {

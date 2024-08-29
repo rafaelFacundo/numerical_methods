@@ -3,7 +3,10 @@
 #include <math.h>
 using namespace std;
 
-ThirdDerivateNewtonApproach::ThirdDerivateNewtonApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function) {};
+ThirdDerivateNewtonApproach::ThirdDerivateNewtonApproach(double xi, double deltax, std::function<double(double)> function) : Derivate(xi, deltax, function)
+{
+    this->methodName = "THIRD DERIVATE NEWTON APPROACH";
+};
 
 void ThirdDerivateNewtonApproach::execute()
 {

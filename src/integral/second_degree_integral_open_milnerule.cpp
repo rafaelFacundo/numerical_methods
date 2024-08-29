@@ -1,7 +1,10 @@
 #include "integral/second_degree_integral_open_milnerule.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
+SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions)
+{
+    this->methodName = "SECOND DEGREE INTEGRAL OPEN MILNE RULE";
+};
 
 SecondDegreeIntegralOpenMilneRule::SecondDegreeIntegralOpenMilneRule(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 

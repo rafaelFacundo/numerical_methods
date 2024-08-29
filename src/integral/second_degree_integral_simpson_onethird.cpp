@@ -1,7 +1,10 @@
 #include "integral/second_degree_integral_simpson_onethird.hpp"
 #include "visitor/visitor.hpp"
 
-SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions) {};
+SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(double)> function, int numberOfPartitions) : Integral(xi, deltax, function, numberOfPartitions)
+{
+    this->methodName = "SECOND DEGREE INTEGRAL SIMPSON ONE THIRD";
+};
 
 SecondDegreeIntegralSimpsonOnethird::SecondDegreeIntegralSimpsonOnethird(double xi, double deltax, std::function<double(double)> function, double tolerance) : Integral(xi, deltax, function, tolerance) {};
 

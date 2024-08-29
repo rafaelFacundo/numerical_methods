@@ -7,7 +7,10 @@
 using namespace std;
 
 IntegralSimpleExponentialNewtonCotes::IntegralSimpleExponentialNewtonCotes(std::function<double(double)> function, double xi, double xf, double tolerance)
-    : IntegralSpecial(function, xi, xf), tolerance{tolerance} {};
+    : IntegralSpecial(function, xi, xf), tolerance{tolerance}
+{
+    this->methodName = "SIMPLE EXPONENTIAL INTEGRAL WITH NEWTON COTES";
+};
 
 double IntegralSimpleExponentialNewtonCotes::Xs(double s)
 {
@@ -25,11 +28,7 @@ void IntegralSimpleExponentialNewtonCotes::execute()
     {
         return this->functionToIntegrate(this->Xs(x)) * this->DXs(x);
     };
-    cout << t(-5) << " ASDA\n";
     ThirdDegreeIntegralOpenNewtonCotes integra = ThirdDegreeIntegralOpenNewtonCotes(-5, 10, t, this->tolerance);
-    cout << "ASLDKJALSKDJALSKDJ\n";
     integra.execute();
-    cout << "AAAAAAAAAAAAAAAAAAA  " << integra.result << '\n';
-
     this->result = integra.result;
 };
